@@ -1,0 +1,16 @@
+body, div, html, span{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    width: 90%;
+    border: 1px solid #c3c3c3;
+    margin: 0 auto;
+}
+.weaponBody{
+    position: relative;
+    display: inline-block;
+    height: 15%;
+    width: 30%;
+    background: black;
+}
