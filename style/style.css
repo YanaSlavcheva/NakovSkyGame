@@ -46,3 +46,17 @@
     -ms-transform-origin: top left;  /*IE 9 */
     -webkit-transform-origin: top left;  /*Chrome, Safari, Opera */
 }
+
+/*styles for the landParachutist*/
+#landParachutist {
+ /* simple box */
+ position:absolute;
+ left:0px;
+ top:8em;
+ width:5em;
+ line-height:3em;
+ background:#99ccff;
+ border:1px solid #003366;
+ white-space:nowrap;
+ padding:0.5em;
+}
