@@ -7,12 +7,14 @@ var fooHeight = document.getElementById('landParachutist').offsetHeight;
 function doMove() {
 	var positionLeft = parseInt(foo.style.left) + 1;
 	foo.style.left = positionLeft + 'px';
-	setTimeout(doMove,5); // call doMove in 20msec
+	if(positionLeft < containerWidth/2 - fooWidth){
+		setTimeout(doMove,5); // call doMove in 20msec
+	}
 	
 	//we make sure foo stops next to the wepon in the middle
-	if (positionLeft >= containerWidth/2 - fooWidth) {
-		doStop();
-	}
+	//if (positionLeft >= containerWidth/2 - fooWidth) {
+		//doStop();
+	//}
 }
 
 //malko dyrvarski za sega, ama spira... :)
