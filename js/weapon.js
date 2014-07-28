@@ -55,7 +55,12 @@ Gun.prototype.hideFire = function hideFire() {
 // ---------------------------------------------------  PELLET -----------------------------------------------
 
 function Pellets() {
-    this.shots = [];
+    this.id = [];
+    this.angles = {};
+    this.left = {};
+    this.top = {};
+    this.speed = 1;
+    this.dFragment = document.createDocumentFragment();
 }
 
 Pellets.prototype.y = function y(gun, x, angle) {
@@ -76,19 +81,21 @@ Pellets.prototype.y = function y(gun, x, angle) {
 };
 
 Pellets.prototype.add = function add(gun) {
+    this.copyToDFragment();
+
     var pellet = document.createElement("IMG");
 
     pellet.src = 'images/pellet.png';
-    pellet.id = 'pellet' + this.shots.length;
+    this.id.push('pellet' + this.id.length);
+    pellet.id = 'pellet' + (this.id.length - 1);
     pellet.className = 'pellet';
+    pellet.name = 'pellet';
     //applying CSS3 rotation
     pellet.style.transform = 'rotate(' + gun.angle + 'deg)';
     pellet.style.mozTransform = 'rotate(' + gun.angle + 'deg)';
     pellet.style.webkitTransform = 'rotate(' + gun.angle + 'deg)';
     pellet.style.OTransform = 'rotate(' + gun.angle + 'deg)';
     pellet.style.msTransform = 'rotate(' + gun.angle + 'deg)';
-
-    document.getElementById('container').appendChild(pellet);
 
     var angleRad = gun.angle * (Math.PI / 180),
         left = (Math.round(gun.x + Math.sin(angleRad) * gun.len)),
@@ -98,50 +105,85 @@ Pellets.prototype.add = function add(gun) {
     pellet.style.left = left + 'px';
     pellet.style.top = top + 'px';
 
-    this.shots.push({
-        id: 'pellet' + this.shots.length,
-        left: left,
-        top: top,
-        angle: gun.angle
-    });
+    this.left[pellet.id] = left;
+    this.top[pellet.id] = top;
+    this.angles[pellet.id] = gun.angle;
+
+    this.dFragment.appendChild(pellet);
 };
+
 
 Pellets.prototype.move = function move() {
-    var indexes = [],
-        container = document.getElementById('container'),
+    var container = document.getElementById('container'),
         i;
 
-    for (i in this.shots) {
-        var pellet = document.getElementById(this.shots[i].id);
+    if (this.dFragment.childElementCount <= 0) {
+        this.id = [];
+        this.angles = {};
+        this.left = {};
+        this.top = {};
+        return;
+    }
 
-        if (!(this.shots[i].left < pellet.parentElement.offsetWidth && this.shots[i].top > 0)) {
-            container.removeChild(pellet);
-            indexes.push(i);
-            continue;
+    var pellets = this.dFragment.childNodes,
+        i;
+
+    for (i = 0; i < this.id.length; i += 1) {
+        var id = this.id[i],
+            left = this.left[id],
+            top = this.top[id],
+            angle = this.angles[id];
+
+        if (angle > 0) {
+            left += this.speed;
+        } else if (angle < 0) {
+            left -= this.speed;
         }
-        this.shots[i].left++;
-        this.shots[i].top = Math.round(pellets.y(gun, this.shots[i].left, this.shots[i].angle));
-        pellet.style.left = this.shots[i].left + 'px';
-        pellet.style.top = this.shots[i].top + 'px';
+
+        if (angle === 0) {
+            top -= this.speed;
+        } else {
+            top = Math.round(this.y(gun, left, angle));
+        }
+
+        this.left[id] = left;
+        this.top[id] = top;
+        pellets[i].style.left = left + 'px';
+        pellets[i].style.top = top + 'px';
+
+        if (!(left < container.clientWidth && top > 0 && left > 0)) {
+            this.dFragment.removeChild(pellets[i]);
+        }
+
     }
 
-    for (i in indexes) {
-        this.shots.splice(indexes[i], 1);
-    }
+//    container.appendChild(this.dFragment);
 
-    indexes = [];
 };
 
-var gun = new Gun('weapon'),
-    pellets = new Pellets();
 
-setLeftIntervalMovePellets(pellets);
+Pellets.prototype.copyToDFragment = function copyToDFragment() {
+    var pellets = document.getElementsByName('pellet'),
+        i;
+    while (pellets.length > 0) {
+        this.dFragment.appendChild(pellets[0]);
+    }
+};
 
+
+// Interval's Functions
+function showPellets(pellets) {
+    pellets.setIntervalShow = setInterval(function () {
+        document.getElementById('container').appendChild(pellets.dFragment);
+        pellets.copyToDFragment();
+    }, 15);
+}
 
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
-    }, 1);
+        document.getElementById('d1').innerHTML = pellets.left['pellet0'];
+    }, 15);
 }
 
 function setLeftIntervalRotate(gun) {
@@ -160,6 +202,7 @@ function setRightIntervalRotate(gun) {
     gun.leftInterval = 0;
 }
 
+// Event Gun Functions
 window.onkeydown = function catchDownKey(e) {
 
     switch (e.keyCode) {
@@ -179,7 +222,6 @@ window.onkeydown = function catchDownKey(e) {
 
 };
 
-
 window.onkeyup = function catchUpKey(e) {
 
     switch (e.keyCode) {
@@ -196,4 +238,13 @@ window.onkeyup = function catchUpKey(e) {
             break;
     }
 };
+
+
+// Execute code
+var gun = new Gun('weapon'),
+    pellets = new Pellets();
+
+setLeftIntervalMovePellets(pellets);
+showPellets(pellets);
+
 
