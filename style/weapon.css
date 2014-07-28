@@ -4,6 +4,7 @@
     background-color: #000;
     margin: 25px auto;
     position: relative;
+    overflow: hidden;
 }
 
 #weapon{
