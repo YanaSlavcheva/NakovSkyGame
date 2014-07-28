@@ -97,6 +97,7 @@
 #landParachutist {
  /* simple box */
  position:absolute;
+    z-index: 25;
  left:0px;
  top:8em;
  width:5em;
