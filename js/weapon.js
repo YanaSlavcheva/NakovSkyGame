@@ -59,7 +59,7 @@ function Pellets() {
     this.angles = {};
     this.left = {};
     this.top = {};
-    this.speed = 1;
+    this.speed = 3;
     this.dFragment = document.createDocumentFragment();
 }
 
@@ -81,7 +81,6 @@ Pellets.prototype.y = function y(gun, x, angle) {
 };
 
 Pellets.prototype.add = function add(gun) {
-    this.copyToDFragment();
 
     var pellet = document.createElement("IMG");
 
@@ -109,15 +108,17 @@ Pellets.prototype.add = function add(gun) {
     this.top[pellet.id] = top;
     this.angles[pellet.id] = gun.angle;
 
-    this.dFragment.appendChild(pellet);
+    document.getElementById('container').appendChild(pellet);
 };
 
 
 Pellets.prototype.move = function move() {
+
     var container = document.getElementById('container'),
+        pellets = document.getElementsByName('pellet'),
         i;
 
-    if (this.dFragment.childElementCount <= 0) {
+    if (pellets.length <= 0) {
         this.id = [];
         this.angles = {};
         this.left = {};
@@ -125,65 +126,57 @@ Pellets.prototype.move = function move() {
         return;
     }
 
-    var pellets = this.dFragment.childNodes,
-        i;
-
     for (i = 0; i < this.id.length; i += 1) {
+
         var id = this.id[i],
             left = this.left[id],
             top = this.top[id],
             angle = this.angles[id];
 
-        if (angle > 0) {
-            left += this.speed;
-        } else if (angle < 0) {
-            left -= this.speed;
+        var pellet = document.getElementById(id);
+
+        if (pellet != null) {
+            if (angle > 0) {
+                left += this.speed;
+            } else if (angle < 0) {
+                left -= this.speed;
+            }
+
+            if (angle === 0) {
+                top -= this.speed;
+            } else {
+                top = Math.round(this.y(gun, left, angle));
+            }
+
+
+            this.left[id] = left;
+            this.top[id] = top;
+            pellet.style.left = left + 'px';
+            pellet.style.top = top + 'px';
+
+
+            if (!(left < container.clientWidth && top > 0 && left > 0)) {
+                container.removeChild(pellet);
+            }
         }
-
-        if (angle === 0) {
-            top -= this.speed;
-        } else {
-            top = Math.round(this.y(gun, left, angle));
-        }
-
-        this.left[id] = left;
-        this.top[id] = top;
-        pellets[i].style.left = left + 'px';
-        pellets[i].style.top = top + 'px';
-
-        if (!(left < container.clientWidth && top > 0 && left > 0)) {
-            this.dFragment.removeChild(pellets[i]);
-        }
-
     }
-
-//    container.appendChild(this.dFragment);
 
 };
 
 
 Pellets.prototype.copyToDFragment = function copyToDFragment() {
-    var pellets = document.getElementsByName('pellet'),
-        i;
+    var pellets = document.getElementsByName('pellet');
     while (pellets.length > 0) {
         this.dFragment.appendChild(pellets[0]);
     }
 };
 
 
-// Interval's Functions
-function showPellets(pellets) {
-    pellets.setIntervalShow = setInterval(function () {
-        document.getElementById('container').appendChild(pellets.dFragment);
-        pellets.copyToDFragment();
-    }, 15);
-}
-
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
         document.getElementById('d1').innerHTML = pellets.left['pellet0'];
-    }, 15);
+    }, 1);
 }
 
 function setLeftIntervalRotate(gun) {
@@ -245,6 +238,6 @@ var gun = new Gun('weapon'),
     pellets = new Pellets();
 
 setLeftIntervalMovePellets(pellets);
-showPellets(pellets);
+//showPellets(pellets);
 
 
