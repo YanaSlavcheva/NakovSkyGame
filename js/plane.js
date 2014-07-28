@@ -57,7 +57,7 @@ Plane.prototype.randPlaneSize=function randPlaneSize(frequency){
 Plane.prototype.foreachPellets=function foreachPellets(){
     if(pellets.id.length>0){
         for(var ids in pellets.id){
-            document.getElementById('tester').innerHTML=document.getElementById('tester').innerHTML + ' ' + pellets.left[pellets.id[ids]];
+            //document.getElementById('tester').innerHTML=document.getElementById('tester').innerHTML + ' ' + pellets.left[pellets.id[ids]];
         }
     }
 };
