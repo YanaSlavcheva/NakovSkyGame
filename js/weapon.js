@@ -59,8 +59,9 @@ function Pellets() {
     this.angles = {};
     this.left = {};
     this.top = {};
+    this.count = 20;
     this.speed = 3;
-    this.dFragment = document.createDocumentFragment();
+//    this.dFragment = document.createDocumentFragment();
 }
 
 Pellets.prototype.y = function y(gun, x, angle) {
@@ -81,6 +82,10 @@ Pellets.prototype.y = function y(gun, x, angle) {
 };
 
 Pellets.prototype.add = function add(gun) {
+
+    if(this.count < 1) {
+        return;
+    }
 
     var pellet = document.createElement("IMG");
 
@@ -108,7 +113,10 @@ Pellets.prototype.add = function add(gun) {
     this.top[pellet.id] = top;
     this.angles[pellet.id] = gun.angle;
 
+
     document.getElementById('container').appendChild(pellet);
+
+    this.count--;
 };
 
 
@@ -164,18 +172,27 @@ Pellets.prototype.move = function move() {
 };
 
 
-Pellets.prototype.copyToDFragment = function copyToDFragment() {
-    var pellets = document.getElementsByName('pellet');
-    while (pellets.length > 0) {
-        this.dFragment.appendChild(pellets[0]);
-    }
-};
+//Pellets.prototype.copyToDFragment = function copyToDFragment() {
+//    var pellets = document.getElementsByName('pellet');
+//    while (pellets.length > 0) {
+//        this.dFragment.appendChild(pellets[0]);
+//    }
+//};
+
+
+
+// SetInterval Functions ---------------------------------------------------------
+function upPelletCount(pellets) {
+    pellets.setIntervalMove = setInterval(function () {
+        if (pellets.count < 20) pellets.count++;
+        document.getElementById('d1').innerHTML = pellets.count;
+    }, 500);
+}
 
 
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
-        document.getElementById('d1').innerHTML = pellets.left['pellet0'];
     }, 1);
 }
 
@@ -195,7 +212,7 @@ function setRightIntervalRotate(gun) {
     gun.leftInterval = 0;
 }
 
-// Event Gun Functions
+// Event Gun Functions ---------------------------------------------------------------------
 window.onkeydown = function catchDownKey(e) {
 
     switch (e.keyCode) {
@@ -238,6 +255,6 @@ var gun = new Gun('weapon'),
     pellets = new Pellets();
 
 setLeftIntervalMovePellets(pellets);
-//showPellets(pellets);
+upPelletCount(pellets);
 
 
