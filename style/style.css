@@ -3,6 +3,10 @@ body, div, html, span, h1, ul, li{
     padding: 0px;
 }
 
+body{
+    overflow-x: hidden;
+}
+
 html{
     height: 100%;
 }
@@ -21,6 +25,7 @@ html{
     height: 100%;
     border: 1px solid #c3c3c3;
     position: relative;
+    overflow: hidden;
 }
 
 .infoRow{
@@ -128,22 +133,21 @@ html{
     height: 5%;
     position: absolute;
     transform-origin: top left;
-    -ms-transform-origin: top left;  /*IE 9 */
-    -webkit-transform-origin: top left;  /*Chrome, Safari, Opera */
+    -ms-transform-origin: top left; /*IE 9 */
+    -webkit-transform-origin: top left; /*Chrome, Safari, Opera */
 }
 
 /*styles for the landParachutist*/
 #landParachutist {
- /* simple box */
- position:absolute;
+    /* simple box */
+    position:absolute;
     z-index: 25;
- left:0px;
- top:8em;
- width:5em;
- line-height:3em;
- background:#99ccff;
- border:1px solid #003366;
- white-space:nowrap;
- padding:0.5em;
+    left:0px;
+    top:8em;
+    width:5em;
+    line-height:3em;
+    background:#99ccff;
+    border:1px solid #003366;
+    white-space:nowrap;
+    padding:0.5em;
 }
-
