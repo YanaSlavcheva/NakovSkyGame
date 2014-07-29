@@ -29,6 +29,7 @@ Plane.prototype.move=function move(id) {
     setInterval(function() {
         if(document.getElementById(id)!=null){
             document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + 9 + 'px';
+            planee.planeSoundStart();
         }
     }, 20);
 };
@@ -41,6 +42,7 @@ Plane.prototype.reMove=function reMove(id) {
                 planee.id.pop();
                 planee.top.pop();
                 planee.width.pop();
+                planee.planeSoundStop();
             }
         }
     }, 15);
@@ -79,6 +81,19 @@ Plane.prototype.foreachPellets=function foreachPellets(){
     }
 };
 
+Plane.prototype.planeSoundStart=function planeSoundStart(){
+    document.getElementById('planeFly').play();
+};
+
+Plane.prototype.planeSoundStop=function planeSoundStop(){
+    document.getElementById('planeFly').pause();
+};
+
+Plane.prototype.planeExplodeSoundStart=function planeExplodeSoundStart(){
+    document.getElementById('planeExplode').currentTime=0;
+    document.getElementById('planeExplode').play();
+};
+
 function createImgBurningPlane(plane){
     var img = document.createElement('img');
     img.src = 'images/explosion.png';
@@ -98,6 +113,8 @@ Plane.prototype.shootPlane=function shootPlane(){
     planee.id.pop();
     planee.top.pop();
     planee.width.pop();
+    planee.planeExplodeSoundStart();
+    planee.planeSoundStop();
 };
 
 
