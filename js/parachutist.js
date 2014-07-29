@@ -11,20 +11,20 @@ function Soldiers() {
 }
 
 Soldiers.prototype.add = function add(id) {
-    trooper.id.push('parachutist');
-    trooper.top.push(planee.randGenerator(50));
-    trooper.width.push(planee.randPlaneSize());
+    this.id.push('parachutist');
+    this.top.push(10);
+    this.left.push(10);
     this.domElement=document.createElement('img');
     document.getElementById('container').appendChild(this.domElement);
-    this.domElement.setAttribute('id', trooper.id[0]);
+    this.domElement.setAttribute('id', this.id[0]);
     this.domElement.setAttribute('src', 'images/paratroopLeft.png' );
-    this.domElement.style.width=trooper.width[0] + 'px';
+    this.domElement.style.width=this.width[0] + 'px';
     this.domElement.style.position='absolute';
-    this.domElement.style.top=trooper.top[0] + 'px';
+    this.domElement.style.top=this.top[0] + 'px';
     this.domElement.style.left=-parseInt(this.domElement.style.width) + 'px';
 };
 
-Soldiers.protoype.falling = function falling(id) {
+Soldiers.prototype.falling = function falling() {
     var toppos = parseInt(trooper.style.top) + 1;
     trooper.style.top = toppos + 'px';
     if (toppos < containerHeight - troopHeight) {
@@ -34,15 +34,15 @@ Soldiers.protoype.falling = function falling(id) {
 };
 
 
-function start() {
-    trooper = document.getElementById('parachutist');
-    trooper.style.top = 20 + 'px';
-    trooper.style.left = containerWidth/2-troopWidth + 'px';
-    falling();
-}
+//function start() {
+//    trooper = document.getElementById('parachutist');
+//    trooper.style.top = 20 + 'px';
+//    trooper.style.left = containerWidth/2-troopWidth + 'px';
+//    falling();
+//}
 
 
 window.onload =
-    newTroop.add();
+    trooper.add('parachutist');
     start();
 
