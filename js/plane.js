@@ -2,20 +2,48 @@ function Plane(){
     this.id=[];
     this.top=[];
     this.width=[];
+    this.side=[];
+    this.position=[];
 }
 
 Plane.prototype.add=function add() {
-    planee.id.push('plane');
-    planee.top.push(planee.randGenerator(50));
-    planee.width.push(planee.randPlaneSize());
+    this.id.push('plane');
+    this.side.push(this.generateSide());
+    this.top.push(this.randGenerator(50));
+    this.width.push(this.randPlaneSize());
     this.domElement=document.createElement('img');
     document.getElementById('container').appendChild(this.domElement);
-    this.domElement.setAttribute('id', planee.id[0]);
-    this.domElement.setAttribute('src', 'images/plane.png');
-    this.domElement.style.width=planee.width[0] + 'px';
+    this.domElement.setAttribute('id', this.id[0]);
+    this.domElement.style.width=this.width[0] + 'px';
     this.domElement.style.position='absolute';
-    this.domElement.style.top=planee.top[0] + 'px';
-    this.domElement.style.left=-parseInt(this.domElement.style.width) + 'px';
+    this.domElement.style.top=this.top[0] + 'px';
+    this.whichSideMove();
+};
+
+Plane.prototype.generateSide=function generateside(){
+    switch(Math.floor(Math.random()*10)%2){
+        case 0:
+            return 'right';
+        break;
+        case 1:
+            return 'left';
+        break;
+        default:
+            return 'left';
+    }
+};
+
+Plane.prototype.whichSideMove=function whichSideMove(){
+    if(this.side[0]=='left'){
+        this.domElement.setAttribute('src', 'images/leftPlane.png');
+        this.position.push(-parseInt(this.domElement.style.width) + 'px');
+        this.domElement.style.left=this.position[0];
+    }
+    else{
+        this.domElement.setAttribute('src', 'images/rightPlane.png');
+        this.position.push(parseInt(this.domElement.parentNode.clientWidth) -1 + 'px');
+        this.domElement.style.left=this.position[0];
+    }
 };
 
 Plane.prototype.move=function move(id) {
@@ -28,10 +56,20 @@ Plane.prototype.move=function move(id) {
     }, 40);
     setInterval(function() {
         if(document.getElementById(id)!=null){
-            document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + 9 + 'px';
-            planee.planeSoundStart();
+            planee.whereToMove(id);
         }
     }, 20);
+};
+
+Plane.prototype.whereToMove=function whereToMove(id){
+    if(this.side[0]=='left'){
+        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + 9 + 'px';
+        planee.planeSoundStart();
+    }
+    else{
+        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) - 9 + 'px';
+        planee.planeSoundStart();
+    }
 };
 
 Plane.prototype.reMove=function reMove(id) {
@@ -42,6 +80,17 @@ Plane.prototype.reMove=function reMove(id) {
                 planee.id.pop();
                 planee.top.pop();
                 planee.width.pop();
+                planee.side.pop();
+                planee.position.pop();
+                planee.planeSoundStop();
+            }
+            if(parseInt(document.getElementById(id).style.left) <= parseInt(document.getElementById(id).style.width) * -1 -1){
+                document.getElementById(id).parentNode.removeChild(document.getElementById(id));
+                planee.id.pop();
+                planee.top.pop();
+                planee.width.pop();
+                planee.side.pop();
+                planee.position.pop();
                 planee.planeSoundStop();
             }
         }
@@ -113,6 +162,8 @@ Plane.prototype.shootPlane=function shootPlane(){
     planee.id.pop();
     planee.top.pop();
     planee.width.pop();
+    planee.side.pop();
+    planee.position.pop();
     planee.planeExplodeSoundStart();
     planee.planeSoundStop();
 };
