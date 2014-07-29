@@ -4,7 +4,7 @@ function Score(){
 }
 
 Score.prototype.upScore=function upScore(){
-    this.stats=this.stats+1;
+    this.stats+=5;
     this.statsHolder.innerHTML=this.stats + '';
 };
 
