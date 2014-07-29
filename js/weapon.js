@@ -1,3 +1,4 @@
+
 // -------------------------------------------   GUN --------------------------------------------------
 function Gun(id) {
     this.domElement = document.getElementById(id);
@@ -9,7 +10,7 @@ function Gun(id) {
 //  coordinates of gun's bottom
     this.x = this.domElement.offsetLeft + this.domElement.offsetWidth / 2;
     this.y = this.domElement.offsetTop + this.domElement.offsetHeight;
-}
+};
 
 Gun.prototype.rotate = function rotate() {
 
@@ -185,7 +186,7 @@ Pellets.prototype.move = function move() {
 function upPelletCount(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         if (pellets.count < 20) pellets.count++;
-        document.getElementById('d1').innerHTML = pellets.count;
+        document.getElementById('shots').innerHTML = pellets.count;
     }, 500);
 }
 
@@ -213,42 +214,74 @@ function setRightIntervalRotate(gun) {
 }
 
 // Event Gun Functions ---------------------------------------------------------------------
-window.onkeydown = function catchDownKey(e) {
 
-    switch (e.keyCode) {
-        case 32:
-            gun.showFire();
-            pellets.add(gun);
-            break;
-        case 37:
-            gun.setDirection('left');
-            if (!gun.leftInterval) setLeftIntervalRotate(gun);
-            break;
-        case 39:
-            gun.setDirection('right');
-            if (!gun.rightInterval) setRightIntervalRotate(gun);
-            break;
-    }
 
-};
+document.body.onresize = function resize(e) {
 
-window.onkeyup = function catchUpKey(e) {
+    gun = new Gun('weapon');
+    document.getElementById('gameScreen').style.height = window.innerHeight * 0.8  + 'px';
+    document.getElementById('button').style.fontSize = window.innerWidth * 0.05  + 'px';
+    document.getElementById('title').style.fontSize = window.innerWidth * 0.2 + 'px';
 
-    switch (e.keyCode) {
-        case 32:
-            gun.hideFire();
-            break;
-        case 37:
-            clearInterval(gun.leftInterval);
-            gun.leftInterval = 0;
-            break;
-        case 39:
-            clearInterval(gun.rightInterval);
-            gun.rightInterval = 0;
-            break;
+    if (window.innerWidth * 0.03 > 12){
+        document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03  + 'px';
+    } else {
+        document.getElementById('infoRow').style.fontSize = 15  + 'px';
     }
 };
 
+document.getElementById('gameScreen').style.height = window.innerHeight * 0.8  + 'px';
+document.getElementById('button').style.fontSize = window.innerWidth * 0.05  + 'px';
+
+if (window.innerWidth * 0.03 > 12){
+    document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03  + 'px';
+} else {
+    document.getElementById('infoRow').style.fontSize = 15  + 'px';
+}
+
+function startGame(){
+    document.getElementById('gameTitle').style.display = 'none';
+    document.getElementById('container').style.display = 'block';
+    document.getElementById('infoRow').style.display = 'block';
+
+    window.onkeydown = function catchDownKey(e) {
+
+        switch (e.keyCode) {
+            case 32:
+                gun.showFire();
+                pellets.add(gun);
+                break;
+            case 37:
+                gun.setDirection('left');
+                if (!gun.leftInterval) setLeftIntervalRotate(gun);
+                break;
+            case 39:
+                gun.setDirection('right');
+                if (!gun.rightInterval) setRightIntervalRotate(gun);
+                break;
+        }
+
+    };
+
+    window.onkeyup = function catchUpKey(e) {
+
+        switch (e.keyCode) {
+            case 32:
+                gun.hideFire();
+                break;
+            case 37:
+                clearInterval(gun.leftInterval);
+                gun.leftInterval = 0;
+                break;
+            case 39:
+                clearInterval(gun.rightInterval);
+                gun.rightInterval = 0;
+                break;
+        }
+    };
+
+    gun = new Gun('weapon');
+}
 
 // Execute code
 var gun = new Gun('weapon'),
@@ -256,5 +289,6 @@ var gun = new Gun('weapon'),
 
 setLeftIntervalMovePellets(pellets);
 upPelletCount(pellets);
+document.getElementById('start').addEventListener('click',startGame,false);
 
 
