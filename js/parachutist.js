@@ -1,9 +1,3 @@
-var trooper = new Soldiers();
-var containerHeight = document.getElementById('container').offsetHeight;
-var containerWidth = document.getElementById('container').offsetWidth;
-var troopHeight = document.getElementById('parachutist').offsetHeight;
-var troopWidth = document.getElementById('parachutist').offsetWidth;
-
 function Soldiers() {
     this.id = [];
     this.left = {};
@@ -25,24 +19,15 @@ Soldiers.prototype.add = function add(id) {
 };
 
 Soldiers.prototype.falling = function falling() {
-    var toppos = parseInt(trooper.style.top) + 1;
-    trooper.style.top = toppos + 'px';
-    if (toppos < containerHeight - troopHeight) {
-        setTimeout(falling, 10); }
+    var toppos = parseInt(this.style.top) + 1;
+    this.style.top = toppos + 'px';
+        setTimeout(falling, 30);
 
 
 };
-
-
-//function start() {
-//    trooper = document.getElementById('parachutist');
-//    trooper.style.top = 20 + 'px';
-//    trooper.style.left = containerWidth/2-troopWidth + 'px';
-//    falling();
-//}
-
 
 window.onload =
     trooper.add('parachutist');
     start();
 
+var trooper = new Soldiers();
