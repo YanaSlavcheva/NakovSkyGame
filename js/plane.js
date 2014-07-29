@@ -27,17 +27,21 @@ Plane.prototype.move=function move(id) {
         }
     }, 40);
     setInterval(function() {
-        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + 9 + 'px';
+        if(document.getElementById(id)!=null){
+            document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + 9 + 'px';
+        }
     }, 20);
 };
 
 Plane.prototype.reMove=function reMove(id) {
     setInterval(function() {
-        if(parseInt(document.getElementById(id).style.left)>=parseInt(document.getElementById(id).parentNode.clientWidth)) {
-            document.getElementById(id).parentNode.removeChild(document.getElementById(id));
-            planee.id.pop();
-            planee.top.pop();
-            planee.width.pop();
+        if(document.getElementById(id)!=null) {
+            if (parseInt(document.getElementById(id).style.left) >= parseInt(document.getElementById(id).parentNode.clientWidth)) {
+                document.getElementById(id).parentNode.removeChild(document.getElementById(id));
+                planee.id.pop();
+                planee.top.pop();
+                planee.width.pop();
+            }
         }
     }, 15);
 };
@@ -64,10 +68,12 @@ Plane.prototype.testCollision=function testCollision(){
 Plane.prototype.foreachPellets=function foreachPellets(){
     if(pellets.id.length>0){
         for(var ids in pellets.id){
-            if((parseInt(pellets.left[pellets.id[ids]]) >= parseInt(this.domElement.style.left) &&
-                parseInt(pellets.left[pellets.id[ids]]) <= parseInt(this.domElement.style.left) + planee.width[0]) &&
-                parseInt(pellets.top[pellets.id[ids]]) <= planee.top[0]){
-                planee.shootPlane();
+            if(this.domElement.style.left!=undefined) {
+                if ((parseInt(pellets.left[pellets.id[ids]]) >= parseInt(this.domElement.style.left) &&
+                    parseInt(pellets.left[pellets.id[ids]]) <= parseInt(this.domElement.style.left) + planee.width[0]) &&
+                    parseInt(pellets.top[pellets.id[ids]]) <= planee.top[0]) {
+                    planee.shootPlane();
+                }
             }
         }
     }
@@ -97,7 +103,9 @@ Plane.prototype.shootPlane=function shootPlane(){
 
 
 function removeImgBurningPlane(img){
-    document.getElementById('container').removeChild(img);
+    if(img!=undefined) {
+        document.getElementById('container').removeChild(img);
+    }
 }
 
 
