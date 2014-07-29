@@ -1,5 +1,4 @@
-
-// -------------------------------------------   GUN --------------------------------------------------
+// ------------------------------------------- GUN --------------------------------------------------
 function Gun(id) {
     this.domElement = document.getElementById(id);
     this.angle = 0;
@@ -7,7 +6,7 @@ function Gun(id) {
     this.leftInterval = 0;
     this.rightInterval = 0;
     this.len = this.domElement.clientHeight;
-//  coordinates of gun's bottom
+// coordinates of gun's bottom
     this.x = this.domElement.offsetLeft + this.domElement.offsetWidth / 2;
     this.y = this.domElement.offsetTop + this.domElement.offsetHeight;
 };
@@ -52,8 +51,13 @@ Gun.prototype.hideFire = function hideFire() {
     this.domElement.getElementsByTagName('img')[0].style.visibility = 'hidden';
 };
 
+Gun.prototype.shotSound=function shotSound(){
+    document.getElementById('shot').currentTime=0;
+    document.getElementById('shot').play();
+};
 
-// ---------------------------------------------------  PELLET -----------------------------------------------
+
+// --------------------------------------------------- PELLET -----------------------------------------------
 
 function Pellets() {
     this.id = [];
@@ -62,7 +66,7 @@ function Pellets() {
     this.top = {};
     this.count = 20;
     this.speed = 3;
-//    this.dFragment = document.createDocumentFragment();
+// this.dFragment = document.createDocumentFragment();
 }
 
 Pellets.prototype.y = function y(gun, x, angle) {
@@ -79,7 +83,7 @@ Pellets.prototype.y = function y(gun, x, angle) {
         y = gun.y - gun.len;
     }
 
-    return  y;
+    return y;
 };
 
 Pellets.prototype.add = function add(gun) {
@@ -119,7 +123,6 @@ Pellets.prototype.add = function add(gun) {
 
     this.count--;
 };
-
 
 Pellets.prototype.move = function move() {
 
@@ -174,10 +177,10 @@ Pellets.prototype.move = function move() {
 
 
 //Pellets.prototype.copyToDFragment = function copyToDFragment() {
-//    var pellets = document.getElementsByName('pellet');
-//    while (pellets.length > 0) {
-//        this.dFragment.appendChild(pellets[0]);
-//    }
+// var pellets = document.getElementsByName('pellet');
+// while (pellets.length > 0) {
+// this.dFragment.appendChild(pellets[0]);
+// }
 //};
 
 
@@ -219,24 +222,24 @@ function setRightIntervalRotate(gun) {
 document.body.onresize = function resize(e) {
 
     gun = new Gun('weapon');
-    document.getElementById('gameScreen').style.height = window.innerHeight * 0.8  + 'px';
-    document.getElementById('button').style.fontSize = window.innerWidth * 0.05  + 'px';
+    document.getElementById('gameScreen').style.height = window.innerHeight * 0.8 + 'px';
+    document.getElementById('button').style.fontSize = window.innerWidth * 0.05 + 'px';
     document.getElementById('title').style.fontSize = window.innerWidth * 0.2 + 'px';
 
     if (window.innerWidth * 0.03 > 12){
-        document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03  + 'px';
+        document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03 + 'px';
     } else {
-        document.getElementById('infoRow').style.fontSize = 15  + 'px';
+        document.getElementById('infoRow').style.fontSize = 15 + 'px';
     }
 };
 
-document.getElementById('gameScreen').style.height = window.innerHeight * 0.8  + 'px';
-document.getElementById('button').style.fontSize = window.innerWidth * 0.05  + 'px';
+document.getElementById('gameScreen').style.height = window.innerHeight * 0.8 + 'px';
+document.getElementById('button').style.fontSize = window.innerWidth * 0.05 + 'px';
 
 if (window.innerWidth * 0.03 > 12){
-    document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03  + 'px';
+    document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03 + 'px';
 } else {
-    document.getElementById('infoRow').style.fontSize = 15  + 'px';
+    document.getElementById('infoRow').style.fontSize = 15 + 'px';
 }
 
 function startGame(){
@@ -250,6 +253,7 @@ function startGame(){
             case 32:
                 gun.showFire();
                 pellets.add(gun);
+                gun.shotSound();
                 break;
             case 37:
                 gun.setDirection('left');
@@ -290,5 +294,3 @@ var gun = new Gun('weapon'),
 setLeftIntervalMovePellets(pellets);
 upPelletCount(pellets);
 document.getElementById('start').addEventListener('click',startGame,false);
-
-
