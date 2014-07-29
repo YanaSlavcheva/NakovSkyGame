@@ -94,7 +94,6 @@ Plane.prototype.shootPlane=function shootPlane(){
     score.upScore();
     createImgBurningPlane(this);
     setTimeout(removeImgBurningPlane, 1500);
-    document.getElementById('scoreHolder').innerHTML=score.stats + '';
     document.getElementById('plane').parentNode.removeChild(document.getElementById('plane'));
     planee.id.pop();
     planee.top.pop();
