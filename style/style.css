@@ -151,3 +151,20 @@ html{
     white-space:nowrap;
     padding:0.5em;
 }
+
+/*styles for plane*/
+
+@keyframes fade {
+    from{ opacity: 1}
+    to{ opacity: 0}
+}
+
+@-webkit-keyframes fade {
+  from{ opacity: 1}
+    to{ opacity: 0}
+}
+
+.fadeAnimation{
+    -webkit-animation: fade 1s forwards;
+    animation: fade 1s forwards;
+}

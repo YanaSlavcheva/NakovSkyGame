@@ -6,14 +6,14 @@ function Plane(){
 
 Plane.prototype.add=function add() {
     planee.id.push('plane');
-    planee.top.push(planee.randGenerator(100));
-    planee.width.push(planee.randPlaneSize(300));
+    planee.top.push(planee.randGenerator(50));
+    planee.width.push(planee.randPlaneSize());
     this.domElement=document.createElement('img');
     document.getElementById('container').appendChild(this.domElement);
     this.domElement.setAttribute('id', planee.id[0]);
     this.domElement.setAttribute('src', 'images/plane.png');
     this.domElement.style.width=planee.width[0] + 'px';
-    this.domElement.style.position='relative';
+    this.domElement.style.position='absolute';
     this.domElement.style.top=planee.top[0] + 'px';
     this.domElement.style.left=-parseInt(this.domElement.style.width) + 'px';
 };
@@ -46,10 +46,11 @@ Plane.prototype.randGenerator=function randGenerator(frequency){
     return Math.floor(Math.random() * frequency);
 };
 
-Plane.prototype.randPlaneSize=function randPlaneSize(frequency){
-    var rand=Math.floor(Math.random() * frequency);
-    if(rand < 200){
-        return 200;
+Plane.prototype.randPlaneSize=function randPlaneSize(){
+    var widthContainer = document.getElementById('container').clientWidth;
+    var rand = Math.floor(Math.random() * widthContainer * 0.25);
+    if(rand < widthContainer*0.1){
+        return widthContainer*0.1;
     }
     return rand;
 };
@@ -67,6 +68,8 @@ Plane.prototype.foreachPellets=function foreachPellets(){
                 parseInt(pellets.left[pellets.id[ids]]) <= parseInt(this.domElement.style.left) + planee.width[0]) &&
                 parseInt(pellets.top[pellets.id[ids]]) <= planee.top[0]){
                 document.getElementById('plane').parentNode.removeChild(document.getElementById('plane'));
+                createImgBurningPlane(this);
+                setTimeout(removeImgBurningPlane, 1500);
                 planee.id.pop();
                 planee.top.pop();
                 planee.width.pop();
@@ -75,10 +78,27 @@ Plane.prototype.foreachPellets=function foreachPellets(){
     }
 };
 
+function createImgBurningPlane(plane){
+    var img = document.createElement('img');
+    img.src = 'images/explosion.png';
+    img.style.position = 'absolute';
+    img.style.width = plane.width[0] + 'px';
+    img.style.left = plane.domElement.style.left;
+    img.style.top = plane.domElement.style.top;
+    document.getElementById('container').appendChild(img);
+    img.className = 'fadeAnimation';
+}
+
+
+function removeImgBurningPlane(img){
+    document.getElementById('container').removeChild(img);
+}
+
+
 window.onload=function mover(){
     planee.move('plane');
     planee.reMove('plane');
     planee.testCollision();
 };
 
-var planee=new Plane();
+var planee = new Plane();

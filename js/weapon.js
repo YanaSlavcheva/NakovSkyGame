@@ -187,7 +187,7 @@ function upPelletCount(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         if (pellets.count < 20) pellets.count++;
         document.getElementById('shots').innerHTML = pellets.count;
-    }, 500);
+    }, 1000);
 }
 
 
