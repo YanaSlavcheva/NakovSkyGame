@@ -9,6 +9,7 @@ function Gun(id) {
 // coordinates of gun's bottom
     this.x = this.domElement.offsetLeft + this.domElement.offsetWidth / 2;
     this.y = this.domElement.offsetTop + this.domElement.offsetHeight;
+    this.noPellets = true;
 };
 
 Gun.prototype.rotate = function rotate() {
@@ -44,7 +45,9 @@ Gun.prototype.setDirection = function setDirection(direction) {
 };
 
 Gun.prototype.showFire = function showFire() {
-    this.domElement.getElementsByTagName('img')[0].style.visibility = 'visible';
+    if(this.noPellets === true) {
+        this.domElement.getElementsByTagName('img')[0].style.visibility = 'visible';
+    }
 };
 
 Gun.prototype.hideFire = function hideFire() {
@@ -88,9 +91,13 @@ Pellets.prototype.y = function y(gun, x, angle) {
 
 Pellets.prototype.add = function add(gun) {
 
-    if(this.count < 1) {
+    if(this.count < 0) {
+        gun.noPellets = false;
         return;
     }
+
+    gun.shotSound();
+    gun.noPellets = true;
 
     var pellet = document.createElement("IMG");
 
@@ -155,7 +162,7 @@ Pellets.prototype.move = function move() {
             }
 
             if (angle === 0) {
-                top -= this.speed;
+                top -= this.speed/1;
             } else {
                 top = Math.round(this.y(gun, left, angle));
             }
@@ -253,7 +260,6 @@ function startGame(){
             case 32:
                 gun.showFire();
                 pellets.add(gun);
-                gun.shotSound();
                 break;
             case 37:
                 gun.setDirection('left');
