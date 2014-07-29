@@ -11,6 +11,10 @@ html{
     height: 100%;
 }
 
+#audioHolder{
+    display: none;
+}
+
 #gameScreen {
     width: 90%;
     height: 50%;
@@ -160,7 +164,7 @@ html{
 }
 
 @-webkit-keyframes fade {
-  from{ opacity: 1}
+    from{ opacity: 1}
     to{ opacity: 0}
 }
 
