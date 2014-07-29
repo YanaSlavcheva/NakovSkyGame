@@ -54,10 +54,23 @@ Plane.prototype.randPlaneSize=function randPlaneSize(frequency){
     return rand;
 };
 
+Plane.prototype.testCollision=function testCollision(){
+    setInterval(function() {
+        planee.foreachPellets();
+    }, 15);
+};
+
 Plane.prototype.foreachPellets=function foreachPellets(){
     if(pellets.id.length>0){
         for(var ids in pellets.id){
-            //document.getElementById('tester').innerHTML=document.getElementById('tester').innerHTML + ' ' + pellets.left[pellets.id[ids]];
+            if((parseInt(pellets.left[pellets.id[ids]]) >= parseInt(this.domElement.style.left) &&
+                parseInt(pellets.left[pellets.id[ids]]) <= parseInt(this.domElement.style.left) + planee.width[0]) &&
+                parseInt(pellets.top[pellets.id[ids]]) <= planee.top[0]){
+                document.getElementById('plane').parentNode.removeChild(document.getElementById('plane'));
+                planee.id.pop();
+                planee.top.pop();
+                planee.width.pop();
+            }
         }
     }
 };
@@ -65,6 +78,7 @@ Plane.prototype.foreachPellets=function foreachPellets(){
 window.onload=function mover(){
     planee.move('plane');
     planee.reMove('plane');
+    planee.testCollision();
 };
 
 var planee=new Plane();
