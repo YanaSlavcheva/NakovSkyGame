@@ -77,8 +77,11 @@ Plane.prototype.move=function move(){
 };
 
 Plane.prototype.collision=function collision(){
+
     var pellets=document.getElementsByName('pellet');
     var planes=document.getElementsByName('plane');
+    if(pellets.length <= 0)  return;
+    if(planes.length <= 0)  return;
     for(var pellet in pellets){
         for(var plane in planes){
             if(planes.hasOwnProperty(plane) && pellets.hasOwnProperty(pellet)) {
@@ -131,6 +134,8 @@ Plane.prototype.createImgBurningPlane=function createImgBurningPlane(planeTop, p
 Plane.prototype.paratrooperGenerator = function paratrooperGenerator(trooper){
 
     var planes = document.getElementsByName('plane');
+
+    if(planes.length <= 0) return;
 
     var randomIndex = parseInt(Math.random() * planes.length),
         top =  parseInt(planes[randomIndex].style.top),
@@ -210,7 +215,7 @@ function planeFly(){
 function getParatrooper(){
     setInterval(function() {
         plane.paratrooperGenerator(trooper)
-    }, 1000);
+    }, 3000);
 }
 
 // Do it

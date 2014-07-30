@@ -10,7 +10,7 @@ function Gun(id) {
     this.x = this.domElement.offsetLeft + this.domElement.offsetWidth / 2;
     this.y = this.domElement.offsetTop + this.domElement.offsetHeight;
     this.noPellets = true;
-};
+}
 
 Gun.prototype.rotate = function rotate() {
 

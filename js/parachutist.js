@@ -102,11 +102,6 @@ function setIntervalParatrooper(trooper) {
 var trooper = new Soldiers();
 
 function start() {
-    trooper.add(10);
-    trooper.add(100);
-    trooper.add(300);
-    trooper.add(600);
-    trooper.add(800);
     setIntervalParatrooper(trooper);
 }
 
