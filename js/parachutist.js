@@ -7,7 +7,7 @@ function Soldiers() {
     this.landedHeight = [];
 }
 
-Soldiers.prototype.add = function add(left) {
+Soldiers.prototype.add = function add(left, top) {
     var containerHalfWidth = document.getElementById('gameScreen').clientWidth / 2,
         imageName;
 
@@ -18,7 +18,7 @@ Soldiers.prototype.add = function add(left) {
     }
 
     this.id.push('parachutist' + this.id.length);
-    this.top.push(10);
+    this.top.push(top);
     this.left.push(left);
     this.domElement = document.createElement('img');
     this.domElement.setAttribute('id', this.id[this.id.length - 1]);
