@@ -9,7 +9,7 @@ function Plane(){
 Plane.prototype.add=function add() {
     this.id.push('plane');
     this.side.push(this.generateSide());
-    this.top.push(this.randGenerator(50));
+    this.top.push(this.randGenerator(150));
     this.width.push(this.randPlaneSize());
     this.domElement=document.createElement('img');
     document.getElementById('container').appendChild(this.domElement);
@@ -53,12 +53,12 @@ Plane.prototype.move=function move(id) {
         if(rand>98 && planee.id.length<1){
             planee.add();
         }
-    }, 40);
+    }, 10);
     setInterval(function() {
         if(document.getElementById(id)!=null){
             planee.whereToMove(id);
         }
-    }, 20);
+    }, 30);
 };
 
 Plane.prototype.whereToMove=function whereToMove(id){
