@@ -4,8 +4,6 @@ function Plane(){
     this.id=[];
     this.side=[];
     this.left=[];
-    //this.top=[];
-    //this.position=[];
     this.speed=9;
     this.planesFrequency=3; //from 0 - to 100
 }
@@ -26,6 +24,7 @@ Plane.prototype.add=function add(){
     singlePlane.style.top=this.top[singlePlane.id] + 'px';
     singlePlane.style.left=this.left[singlePlane.id] + 'px';
     singlePlane.style.position='absolute';
+    singlePlane.style.zIndex=parseInt(singlePlane.style.width);
     container.appendChild(singlePlane);
 };
 
@@ -48,8 +47,6 @@ Plane.prototype.move=function move(){
         var id=this.id[i];
         var side=this.side[id];
         var left=this.left[id];
-        //var top=this.top[id];
-        //var position=this.position[id];
 
         var singlePlane=document.getElementById(id);
 
