@@ -49,19 +49,22 @@ Soldiers.prototype.falling = function falling() {
 
         var soldier = document.getElementById(this.id[i]),
             startLeftPositionOfBase = containerHalfWidth -  baseHalfWidth,
-            endLeftPositionOfBase = containerHalfWidth +  baseHalfWidth,
+            endRightPositionOfBase = containerHalfWidth +  baseHalfWidth,
             landedHeight,
             landedState;
 
 
 
-        if(startLeftPositionOfBase <= this.left[i] && this.left[i] <= endLeftPositionOfBase){
+        if(startLeftPositionOfBase <= this.left[i] && this.left[i] <= endRightPositionOfBase){
             landedHeight = containerHeight  - soldier.clientHeight - baseHeight;
             landedState = 'landed of weapon';
-        } else {
+        } else if (startLeftPositionOfBase > this.left[i]){
             landedHeight = containerHeight  - soldier.clientHeight;
-            landedState = 'landed';
-        }
+            landedState = 'landed left';
+        } else if (this.left[i] > endRightPositionOfBase){
+			landedHeight = containerHeight  - soldier.clientHeight;
+            landedState = 'landed right';
+		}
 
         if (this.state[i] === undefined || this.state[i].substring(0,6) !== 'landed') {
             if (this.top[i] < containerHeight * 0.3) {
@@ -80,13 +83,25 @@ Soldiers.prototype.falling = function falling() {
                 if (this.state[i] === 'fall with parachute') {
                     this.state[i] = landedState;
                     this.landedHeight[i] = this.top[i];
-                    soldier.setAttribute('src', imageNameLanded);
+                    soldier.setAttribute('src', imageNameLanded);					
                 }
             }
         } else {
             soldier.style.top = this.landedHeight[i] + 'px';
         }
+		//landedState === 'landed left' && 
+		if (this.top[i] >= landedHeight) {
+			while (startLeftPositionOfBase - baseHalfWidth > this.left[i]){
+				soldier.style.left = (this.left[i] + 0.001) + 'px';
+				this.left[i] += 0.001;
+			}
+			while (endRightPositionOfBase < this.left[i]){
+				soldier.style.left = (this.left[i] - 0.001) + 'px';
+				this.left[i] -= 0.001;
+			}			
+		}
     }
+
 };
 
 
