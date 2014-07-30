@@ -5,27 +5,26 @@ function Soldiers() {
     this.numSetInterval = [];
     this.state = [];
     this.landedHeight = [];
+	this.width = [];
 }
 
 Soldiers.prototype.add = function add(left, top) {
     var containerHalfWidth = document.getElementById('gameScreen').clientWidth / 2,
         imageName;
 
-    if (left < containerHalfWidth) {
-        imageName = 'images/landedParatroopl.png';
-    } else {
-        imageName = 'images/landedParatroopr.png';
-    }
+    imageName = 'images/landedParatroop.png';
 
     this.id.push('parachutist' + this.id.length);
     this.top.push(top);
     this.left.push(left);
+	this.width.push(containerHalfWidth * 0.35);
     this.domElement = document.createElement('img');
     this.domElement.setAttribute('id', this.id[this.id.length - 1]);
     this.domElement.setAttribute('class', 'paratrooper');
     this.domElement.name = 'paratrooper';
     this.domElement.setAttribute('src', imageName);
     this.domElement.style.top = this.top[this.id.length - 1] + 'px';
+	this.domElement.style.width = this.width[0] + 'px';
     this.domElement.style.left = left + 'px';
     document.getElementById('container').appendChild(this.domElement);
 };
@@ -42,13 +41,8 @@ Soldiers.prototype.falling = function falling() {
 
     for (i in this.id) {
 
-        if (this.left[i] < containerHalfWidth) {
-            imageNameFalling = 'images/paratroopLeft.png';
-            imageNameLanded = 'images/landedParatroopl.png';
-        } else {
-            imageNameFalling = 'images/paratroopRight.png';
-            imageNameLanded = 'images/landedParatroopr.png';
-        }
+        imageNameFalling = 'images/paratroop.png';
+		imageNameLanded = 'images/landedParatroop.png';
 
         var soldier = document.getElementById(this.id[i]),
             startLeftPositionOfBase = containerHalfWidth -  baseHalfWidth,
