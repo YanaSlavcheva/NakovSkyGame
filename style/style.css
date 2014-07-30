@@ -173,7 +173,43 @@ html{
     animation: fade 1s forwards;
 }
 
+
+/*styles for paratrooper*/
+
 .paratrooper {
-    width: 6%;
+    width: 8%;
     position: absolute;
+    transform-origin: top center;
+    -ms-transform-origin: top center; /* IE 9 */
+    -webkit-transform-origin: top center;; /* Chrome, Safari, Opera */
 }
+
+@keyframes shake-paratrooper {
+    from {
+        transform: rotate(90deg);
+        -ms-transform: rotate(90deg); /* IE 9 */
+    }
+    to {
+        transform: rotate(-60deg);
+        -ms-transform: rotate(-60deg); /* IE 9 */
+    }
+}
+
+@-webkit-keyframes shake-paratrooper {
+    from  {
+        -webkit-transform: rotate(90deg); /* Opera, Chrome, and Safari */
+    }
+    to {
+        -webkit-transform: rotate(-90deg); /* Opera, Chrome, and Safari */
+    }
+
+}
+
+.shakeParatrooper {
+    -webkit-animation: shake-title 1s;
+    animation: shake-title 1s;
+    -webkit-animation-iteration-count: 3;  /* Safari and Chrome */
+    animation-iteration-count: 3;
+}
+
+
