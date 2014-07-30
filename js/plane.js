@@ -1,225 +1,205 @@
-function Plane() {
-    this.id = [];
-    this.top = [];
-    this.width = [];
-    this.side = [];
-    this.position = [];
-    this.trooperPositions = [];
+// Class Plane
+function Plane(){
+    this.gameLoop=false;
+    this.id=[];
+    this.side=[];
+    this.left=[];
+    //this.top=[];
+    //this.position=[];
+    this.speed=9;
+    this.planesFrequency=3; //from 0 - to 100
 }
 
-Plane.prototype.add = function add() {
-    this.id.push('plane');
-    this.side.push(this.generateSide());
-    this.top.push(this.randGenerator(150));
-    this.width.push(this.randPlaneSize());
-    this.domElement = document.createElement('img');
-    document.getElementById('container').appendChild(this.domElement);
-    this.domElement.setAttribute('id', this.id[0]);
-    this.domElement.style.width = this.width[0] + 'px';
-    this.domElement.style.position = 'absolute';
-    this.domElement.style.top = this.top[0] + 'px';
-    this.whichSideMove();
-
-    var containerWidth = document.getElementById('container').clientWidth;
-    if (containerWidth !== undefined) {
-
-        this.trooperPositions = [];
-
-        var trooperCount = Math.round(Math.random() * 2) + 1,
-            d = Math.random() * 50 + 2,
-            diff = Math.round(containerWidth / d),
-            i;
-
-        for (i = 0; i < trooperCount; i += 1) {
-            this.trooperPositions[i] = diff * (Math.round(Math.random() * d  + 1));
-        }
-   }
+// Class Metods
+Plane.prototype.add=function add(){
+    var singlePlane=document.createElement('img');
+    var container=document.getElementById('container');
+    this.id.push('plane' + this.id.length);
+    singlePlane.id='plane' + (this.id.length-1);
+    this.side[singlePlane.id]=randSide(randGenerator(10));
+    singlePlane.name='plane';
+    singlePlane.src='images/' + choseImg(this.side[singlePlane.id]);
+    singlePlane.className='plane';
+    singlePlane.style.width=randPlaneSize() + 'px';
+    this.left[singlePlane.id]=planeStartCoords(this.side[singlePlane.id], singlePlane);
+    this.top[singlePlane.id]=randGenerator(150);
+    singlePlane.style.top=this.top[singlePlane.id] + 'px';
+    singlePlane.style.left=this.left[singlePlane.id] + 'px';
+    singlePlane.style.position='absolute';
+    container.appendChild(singlePlane);
 };
 
-Plane.prototype.generateSide = function generateside() {
-    switch (Math.floor(Math.random() * 10) % 2) {
-        case 0:
-            return 'right';
-            break;
-        case 1:
-            return 'left';
-            break;
-        default:
-            return 'left';
-    }
-};
+Plane.prototype.move=function move(){
 
-Plane.prototype.whichSideMove = function whichSideMove() {
-    if (this.side[0] == 'left') {
-        this.domElement.setAttribute('src', 'images/leftPlane.png');
-        this.position.push(-parseInt(this.domElement.style.width) + 'px');
-        this.domElement.style.left = this.position[0];
-    }
-    else {
-        this.domElement.setAttribute('src', 'images/rightPlane.png');
-        this.position.push(parseInt(this.domElement.parentNode.clientWidth) - 1 + 'px');
-        this.domElement.style.left = this.position[0];
-    }
-};
+    var plane=document.getElementsByName('plane'),
+        container=document.getElementById('container');
 
-Plane.prototype.move = function move(id) {
-    setInterval(function () {
-        planee.foreachPellets();
-        var rand = planee.randGenerator(100);
-        if (rand > 98 && planee.id.length < 1) {
-            planee.add();
-        }
-    }, 10);
-    setInterval(function () {
-        if (document.getElementById(id) != null) {
-            planee.whereToMove(id);
-            planee.paratrooperGenerator(id);
-        }
-    }, 30);
-};
-
-Plane.prototype.whereToMove = function whereToMove(id) {
-    if (this.side[0] == 'left') {
-        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) + 9 + 'px';
-        planee.planeSoundStart();
+    if(plane.length<=0){
+        this.id=[];
+        this.side=[];
+        this.left=[];
+        this.top=[];
+        this.position=[];
+        this.planeSoundStop();
+        return;
     }
-    else {
-        document.getElementById(id).style.left = parseInt(document.getElementById(id).style.left) - 9 + 'px';
-        planee.planeSoundStart();
-    }
-};
 
-Plane.prototype.reMove = function reMove(id) {
-    setInterval(function () {
-        if (document.getElementById(id) != null) {
-            if (parseInt(document.getElementById(id).style.left) >= parseInt(document.getElementById(id).parentNode.clientWidth)) {
-                document.getElementById(id).parentNode.removeChild(document.getElementById(id));
-                planee.id.pop();
-                planee.top.pop();
-                planee.width.pop();
-                planee.side.pop();
-                planee.position.pop();
-                planee.planeSoundStop();
+    for(var i=0; i<this.id.length; i++){
+        var id=this.id[i];
+        var side=this.side[id];
+        var left=this.left[id];
+        //var top=this.top[id];
+        //var position=this.position[id];
+
+        var singlePlane=document.getElementById(id);
+
+        //move the planes
+        if(singlePlane!=null) {
+            if (side == 'left') {
+                left += this.speed;
             }
-            if (parseInt(document.getElementById(id).style.left) <= parseInt(document.getElementById(id).style.width) * -1 - 1) {
-                document.getElementById(id).parentNode.removeChild(document.getElementById(id));
-                planee.id.pop();
-                planee.top.pop();
-                planee.width.pop();
-                planee.side.pop();
-                planee.position.pop();
-                planee.planeSoundStop();
+            if (side == 'right') {
+                left -= this.speed;
+            }
+
+            this.left[id] = left;
+
+            singlePlane.style.left = left + 'px';
+            this.planeSoundStart();
+
+            //remove the planes
+            if(left > parseInt(screen.width) + 5 ||
+                parseInt(singlePlane.style.left) < (parseInt(singlePlane.style.width) * -1) - 5) {
+                container.removeChild(singlePlane);
             }
         }
-    }, 15);
-};
-
-Plane.prototype.randGenerator = function randGenerator(frequency) {
-    return Math.floor(Math.random() * frequency);
-};
-
-Plane.prototype.randPlaneSize = function randPlaneSize() {
-    var widthContainer = document.getElementById('container').clientWidth;
-    var rand = Math.floor(Math.random() * widthContainer * 0.25);
-    if (rand < widthContainer * 0.1) {
-        return widthContainer * 0.1;
     }
-    return rand;
 };
 
-Plane.prototype.testCollision = function testCollision() {
-    setInterval(function () {
-        planee.foreachPellets();
-    }, 15);
-};
-
-Plane.prototype.foreachPellets = function foreachPellets() {
-    if (pellets.id.length > 0) {
-        for (var ids in pellets.id) {
-            if (this.domElement.style.left != undefined) {
-                if ((parseInt(pellets.left[pellets.id[ids]]) >= parseInt(this.domElement.style.left) &&
-                    parseInt(pellets.left[pellets.id[ids]]) <= parseInt(this.domElement.style.left) + planee.width[0]) &&
-                    parseInt(pellets.top[pellets.id[ids]]) <= planee.top[0]) {
-                    planee.shootPlane();
+Plane.prototype.collision=function collision(){
+    var pellets=document.getElementsByName('pellet');
+    var planes=document.getElementsByName('plane');
+    for(var pellet in pellets){
+        for(var plane in planes){
+            if(planes.hasOwnProperty(plane) && pellets.hasOwnProperty(pellet)) {
+                if (planes[plane] != null && pellets[pellet] != null) {
+                    var planesLeft=parseInt(planes[plane].style.left);
+                    var planesTop=parseInt(planes[plane].style.top);
+                    var planesWidth=parseInt(planes[plane].style.width);
+                    var pelletsLeft=parseInt(pellets[pellet].style.left);
+                    var pelletsTop=parseInt(pellets[pellet].style.top);
+                    if((pelletsTop<=planesTop && pelletsTop >= (planesTop - 30)) &&
+                        (pelletsLeft >= planesLeft && pelletsLeft <= (planesLeft + planesWidth))){
+                        planes[plane].parentNode.removeChild(planes[plane]);
+                        pellets[pellet].parentNode.removeChild(pellets[pellet]);
+                        this.planeExplodeSoundStart();
+                        this.createImgBurningPlane(planesTop, planesLeft, planesWidth);
+                        score.upScore();
+                    }
                 }
             }
         }
     }
 };
 
-Plane.prototype.planeSoundStart = function planeSoundStart() {
+// Sounds
+Plane.prototype.planeSoundStart=function planeSoundStart(){
     document.getElementById('planeFly').play();
 };
 
-Plane.prototype.planeSoundStop = function planeSoundStop() {
+Plane.prototype.planeSoundStop=function planeSoundStop(){
     document.getElementById('planeFly').pause();
 };
 
-Plane.prototype.planeExplodeSoundStart = function planeExplodeSoundStart() {
-    document.getElementById('planeExplode').currentTime = 0;
+Plane.prototype.planeExplodeSoundStart=function planeExplodeSoundStart(){
+    document.getElementById('planeExplode').currentTime=0;
     document.getElementById('planeExplode').play();
 };
 
-function createImgBurningPlane(plane) {
+// Exploading planes
+Plane.prototype.createImgBurningPlane=function createImgBurningPlane(planeTop, planeLeft, planeWidth){
     var img = document.createElement('img');
     img.src = 'images/explosion.png';
     img.style.position = 'absolute';
-    img.style.width = plane.width[0] + 'px';
-    img.style.left = plane.domElement.style.left;
-    img.style.top = plane.domElement.style.top;
+    img.style.width = planeWidth + 'px';
+    img.style.left = planeLeft + 'px';
+    img.style.top = planeTop + 'px';
     document.getElementById('container').appendChild(img);
     img.className = 'fadeAnimation';
-    return img;
-}
-
-Plane.prototype.shootPlane = function shootPlane() {
-    score.upScore();
-    var explosion = createImgBurningPlane(this);
-    setTimeout(function () {
-        removeImgBurningPlane(explosion);
-    }, 2000);
-    document.getElementById('plane').parentNode.removeChild(document.getElementById('plane'));
-    planee.id.pop();
-    planee.top.pop();
-    planee.width.pop();
-    planee.side.pop();
-    planee.position.pop();
-    planee.planeExplodeSoundStart();
-    planee.planeSoundStop();
 };
 
-Plane.prototype.paratrooperGenerator = function paratrooperGenerator(planeId) {
-
-    if (this.trooperPositions.length > 0) {
-        var plane = document.getElementById(planeId),
-            currentPosition = parseInt(plane.style.left),
-            i;
-
-
-        for (i in this.trooperPositions) {
-            if (currentPosition - 5 <= this.trooperPositions[i] && this.trooperPositions[i] <= currentPosition + 5) {
-                // TODO this.top[this.id[i]]
-                trooper.add(this.trooperPositions[i], this.top[0]);
-                this.trooperPositions.splice(i,1);
-                break;
-            }
-        }
-
-//        this.trooperPositions.splice(i, 0);
-    }
-};
-
-function removeImgBurningPlane(img) {
-    if (img != undefined) {
+/*Plane.prototype.removeImgBurningPlane=function removeImgBurningPlane(img){
+    if(img!=undefined) {
         document.getElementById('container').removeChild(img);
     }
+};*/
+
+
+// Some Functions
+function randGenerator(frequency){
+    return Math.floor(Math.random() * frequency);
 }
 
+function randSide(generateNum){
+    switch(generateNum%2){
+        case 0:
+            return 'left';
+        break;
+        case 1:
+            return 'right';
+        break;
+    }
+}
 
-window.onload = function mover() {
-    planee.move('plane');
-    planee.reMove('plane');
-    planee.testCollision();
+function planeStartCoords(side, element){
+    switch(side){
+        case 'left':
+            return parseInt(element.style.width) * -1;
+        break;
+        case 'right':
+            return parseInt(screen.width);
+        break;
+    }
+}
+
+function choseImg(side){
+    switch(side){
+        case 'left':
+            return 'leftPlane.png';
+        return;
+        case 'right':
+            return 'rightPlane.png';
+        return;
+    }
+}
+
+function randPlaneSize(){
+    var widthContainer = parseInt(window.innerWidth);
+    var rand = Math.floor(Math.random() * widthContainer * 0.25);
+    if(rand < widthContainer*0.1){
+        return widthContainer*0.1;
+    }
+    return rand;
+}
+
+// setIntervals
+function planeFly(){
+    setInterval(function() {
+        if(plane.gameLoop==true) {
+            if (randGenerator(100) < plane.planesFrequency) {
+                plane.add();
+            }
+            plane.collision();
+            plane.move();
+        }
+    }, 15);
+}
+
+// Do it
+window.onload=function adder(){
+    planeFly();
 };
 
-var planee = new Plane();
+var plane=new Plane();
+
+document.getElementById('start').addEventListener('click',function(){plane.gameLoop=true},false);
