@@ -195,7 +195,7 @@ function choseImg(side){
 
 function randPlaneSize(){
     var widthContainer = parseInt(window.innerWidth);
-    var rand = Math.floor(Math.random() * widthContainer * 0.25);
+    var rand = Math.floor(Math.random() * widthContainer * 0.2);
     if(rand < widthContainer*0.1){
         return widthContainer*0.1;
     }
@@ -223,8 +223,7 @@ function getParatrooper(){
 
 // Do it
 window.onload=function adder(){
-    planeFly();
-    getParatrooper();
+
 };
 
 var plane=new Plane();

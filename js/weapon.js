@@ -257,7 +257,6 @@ function upPelletCount(pellets) {
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
-        pellets.searchTarget(trooper);
     }, 1);
 }
 
@@ -303,54 +302,6 @@ if (window.innerWidth * 0.03 > 12) {
     document.getElementById('infoRow').style.fontSize = 15 + 'px';
 }
 
-function startGame() {
-    document.getElementById('gameTitle').style.display = 'none';
-    document.getElementById('container').style.display = 'block';
-    document.getElementById('infoRow').style.display = 'block';
-
-    window.onkeydown = function catchDownKey(e) {
-
-        switch (e.keyCode) {
-            case 32:
-                gun.showFire();
-                pellets.add(gun);
-                break;
-            case 37:
-                gun.setDirection('left');
-                if (!gun.leftInterval) setLeftIntervalRotate(gun);
-                break;
-            case 39:
-                gun.setDirection('right');
-                if (!gun.rightInterval) setRightIntervalRotate(gun);
-                break;
-        }
-
-    };
-
-    window.onkeyup = function catchUpKey(e) {
-
-        switch (e.keyCode) {
-            case 32:
-                gun.hideFire();
-                break;
-            case 37:
-                clearInterval(gun.leftInterval);
-                gun.leftInterval = 0;
-                break;
-            case 39:
-                clearInterval(gun.rightInterval);
-                gun.rightInterval = 0;
-                break;
-        }
-    };
-
-    gun = new Gun('weapon');
-}
-
 // Execute code
 var gun = new Gun('weapon'),
     pellets = new Pellets();
-
-setLeftIntervalMovePellets(pellets);
-upPelletCount(pellets);
-document.getElementById('start').addEventListener('click', startGame, false);

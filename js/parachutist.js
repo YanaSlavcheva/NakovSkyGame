@@ -95,11 +95,9 @@ function setIntervalParatrooper(trooper) {
 
 var trooper = new Soldiers();
 
-function start() {
-    setIntervalParatrooper(trooper);
-}
 
-start();
+
+
 
 
 
