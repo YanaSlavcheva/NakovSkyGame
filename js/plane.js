@@ -200,7 +200,7 @@ Plane.prototype.paratrooperGenerator = function paratrooperGenerator(planeId) {
             if (currentPosition - 5 <= this.trooperPositions[i] && this.trooperPositions[i] <= currentPosition + 5) {
                 // TODO this.top[this.id[i]]
                 trooper.add(this.trooperPositions[i], this.top[0]);
-                this.trooperPositions[i].splice(i,1);
+                this.trooperPositions.splice(i,1);
                 break;
             }
         }

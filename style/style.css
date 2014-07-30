@@ -179,6 +179,7 @@ html{
 .paratrooper {
     width: 8%;
     position: absolute;
+    z-index: 25;
     transform-origin: top center;
     -ms-transform-origin: top center; /* IE 9 */
     -webkit-transform-origin: top center;; /* Chrome, Safari, Opera */
