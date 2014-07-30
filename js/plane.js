@@ -4,6 +4,8 @@ function Plane(){
     this.id=[];
     this.side=[];
     this.left=[];
+    //this.top=[];
+    //this.position=[];
     this.speed=9;
     this.planesFrequency=3; //from 0 - to 100
 }
@@ -24,7 +26,6 @@ Plane.prototype.add=function add(){
     singlePlane.style.top=this.top[singlePlane.id] + 'px';
     singlePlane.style.left=this.left[singlePlane.id] + 'px';
     singlePlane.style.position='absolute';
-    singlePlane.style.zIndex=parseInt(singlePlane.style.width);
     container.appendChild(singlePlane);
 };
 
@@ -47,6 +48,8 @@ Plane.prototype.move=function move(){
         var id=this.id[i];
         var side=this.side[id];
         var left=this.left[id];
+        //var top=this.top[id];
+        //var position=this.position[id];
 
         var singlePlane=document.getElementById(id);
 
@@ -125,11 +128,23 @@ Plane.prototype.createImgBurningPlane=function createImgBurningPlane(planeTop, p
     img.className = 'fadeAnimation';
 };
 
+Plane.prototype.paratrooperGenerator = function paratrooperGenerator(trooper){
+
+    var planes = document.getElementsByName('plane');
+
+    var randomIndex = parseInt(Math.random() * planes.length),
+        top =  parseInt(planes[randomIndex].style.top),
+        left = parseInt(planes[randomIndex].style.left);
+
+    trooper.add(left, top);
+};
+
+
 /*Plane.prototype.removeImgBurningPlane=function removeImgBurningPlane(img){
-    if(img!=undefined) {
-        document.getElementById('container').removeChild(img);
-    }
-};*/
+ if(img!=undefined) {
+ document.getElementById('container').removeChild(img);
+ }
+ };*/
 
 
 // Some Functions
@@ -141,10 +156,10 @@ function randSide(generateNum){
     switch(generateNum%2){
         case 0:
             return 'left';
-        break;
+            break;
         case 1:
             return 'right';
-        break;
+            break;
     }
 }
 
@@ -152,10 +167,10 @@ function planeStartCoords(side, element){
     switch(side){
         case 'left':
             return parseInt(element.style.width) * -1;
-        break;
+            break;
         case 'right':
             return parseInt(screen.width);
-        break;
+            break;
     }
 }
 
@@ -163,10 +178,10 @@ function choseImg(side){
     switch(side){
         case 'left':
             return 'leftPlane.png';
-        return;
+            return;
         case 'right':
             return 'rightPlane.png';
-        return;
+            return;
     }
 }
 
@@ -192,9 +207,16 @@ function planeFly(){
     }, 15);
 }
 
+function getParatrooper(){
+    setInterval(function() {
+        plane.paratrooperGenerator(trooper)
+    }, 1000);
+}
+
 // Do it
 window.onload=function adder(){
     planeFly();
+    getParatrooper();
 };
 
 var plane=new Plane();

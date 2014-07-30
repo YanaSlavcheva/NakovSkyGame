@@ -45,7 +45,7 @@ Gun.prototype.setDirection = function setDirection(direction) {
 };
 
 Gun.prototype.showFire = function showFire() {
-    if(this.noPellets === true) {
+    if (this.noPellets === true) {
         this.domElement.getElementsByTagName('img')[0].style.visibility = 'visible';
     }
 };
@@ -54,8 +54,8 @@ Gun.prototype.hideFire = function hideFire() {
     this.domElement.getElementsByTagName('img')[0].style.visibility = 'hidden';
 };
 
-Gun.prototype.shotSound=function shotSound(){
-    document.getElementById('shot').currentTime=0;
+Gun.prototype.shotSound = function shotSound() {
+    document.getElementById('shot').currentTime = 0;
     document.getElementById('shot').play();
 };
 
@@ -91,7 +91,7 @@ Pellets.prototype.y = function y(gun, x, angle) {
 
 Pellets.prototype.add = function add(gun) {
 
-    if(this.count < 0) {
+    if (this.count < 0) {
         gun.noPellets = false;
         return;
     }
@@ -162,7 +162,7 @@ Pellets.prototype.move = function move() {
             }
 
             if (angle === 0) {
-                top -= this.speed/1;
+                top -= this.speed / 1;
             } else {
                 top = Math.round(this.y(gun, left, angle));
             }
@@ -183,13 +183,66 @@ Pellets.prototype.move = function move() {
 };
 
 
+Pellets.prototype.searchTarget = function searchTarget(troopers) {
+    var indexPellet,
+        indexTrooper,
+        idPellets = [],
+        idTroopers = [];
+
+    for (indexPellet in this.id) {
+
+        var pellet = document.getElementById(this.id[indexPellet]);
+
+        if (pellet == null) break;
+
+        var leftPellet = parseInt(pellet.style.left),
+            topPellet = parseInt(pellet.style.top);
+
+        for (indexTrooper in troopers.id) {
+
+            var trooper = document.getElementById(troopers.id[indexTrooper]);
+
+            if (trooper == null) break;
+
+            var leftTrooper = parseInt(trooper.style.left) - 30,
+                topTrooper = parseInt(trooper.style.top) - 30,
+                heightTrooper = pellet.clientHeight + 30,
+                widthTrooper = pellet.clientWidth +  30;
+
+            if(leftPellet >= leftTrooper  && leftPellet - 20 <= leftTrooper + widthTrooper  &&
+                topPellet >= topTrooper && topPellet -20 <= topTrooper + heightTrooper ) {
+
+//
+//                pellet.style.display = 'none';
+//                trooper.style.display = 'none';
+//                idPellets.push(this.id[indexPellet]);
+//                idTroopers.push(troopers.id[indexPellet]);
+//                break;
+            }
+
+        }
+    }
+
+    var i;
+
+//    for (i in idPellets){
+//        pellet = document.getElementById(idPellets[i]);
+//        trooper = document.getElementById(idTroopers[i]);
+//        document.getElementById('container').removeChild(pellet);
+//        document.getElementById('container').removeChild(trooper);
+//        var pos = this.id.indexOf(idPellets[i]);
+//        this.id.splice(pos, 1);
+//        pos = troopers.id.indexOf(idTroopers[i]);
+//        troopers.id.splice(pos, 1);
+//    }
+};
+
 //Pellets.prototype.copyToDFragment = function copyToDFragment() {
 // var pellets = document.getElementsByName('pellet');
 // while (pellets.length > 0) {
 // this.dFragment.appendChild(pellets[0]);
 // }
 //};
-
 
 
 // SetInterval Functions ---------------------------------------------------------
@@ -204,6 +257,7 @@ function upPelletCount(pellets) {
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
+        pellets.searchTarget(trooper);
     }, 1);
 }
 
@@ -233,7 +287,7 @@ document.body.onresize = function resize(e) {
     document.getElementById('button').style.fontSize = window.innerWidth * 0.05 + 'px';
     document.getElementById('title').style.fontSize = window.innerWidth * 0.2 + 'px';
 
-    if (window.innerWidth * 0.03 > 12){
+    if (window.innerWidth * 0.03 > 12) {
         document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03 + 'px';
     } else {
         document.getElementById('infoRow').style.fontSize = 15 + 'px';
@@ -243,13 +297,13 @@ document.body.onresize = function resize(e) {
 document.getElementById('gameScreen').style.height = window.innerHeight * 0.8 + 'px';
 document.getElementById('button').style.fontSize = window.innerWidth * 0.05 + 'px';
 
-if (window.innerWidth * 0.03 > 12){
+if (window.innerWidth * 0.03 > 12) {
     document.getElementById('infoRow').style.fontSize = window.innerWidth * 0.03 + 'px';
 } else {
     document.getElementById('infoRow').style.fontSize = 15 + 'px';
 }
 
-function startGame(){
+function startGame() {
     document.getElementById('gameTitle').style.display = 'none';
     document.getElementById('container').style.display = 'block';
     document.getElementById('infoRow').style.display = 'block';
@@ -299,4 +353,4 @@ var gun = new Gun('weapon'),
 
 setLeftIntervalMovePellets(pellets);
 upPelletCount(pellets);
-document.getElementById('start').addEventListener('click',startGame,false);
+document.getElementById('start').addEventListener('click', startGame, false);
