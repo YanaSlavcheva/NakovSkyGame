@@ -6,6 +6,7 @@ function Soldiers() {
     this.state = [];
     this.landedHeight = [];
 	this.width = [];
+    this.gameLoop = true;
 }
 
 Soldiers.prototype.add = function add(left, top) {
@@ -30,6 +31,8 @@ Soldiers.prototype.add = function add(left, top) {
 };
 
 Soldiers.prototype.falling = function falling() {
+
+    if (this.gameLoop  === false) return;
 
     var containerHeight = document.getElementById('container').clientHeight * 0.98,
         containerHalfWidth = document.getElementById('container').clientWidth / 2,

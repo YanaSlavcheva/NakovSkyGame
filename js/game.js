@@ -48,6 +48,18 @@ function startGame() {
     setIntervalParatrooper(trooper);
     planeFly();
     getParatrooper();
+    plane.gameLoop = true
+    trooper.gameLoop = true;
 }
 
 document.getElementById('start').addEventListener('click', startGame, false);
+
+function stopGame() {
+    clearInterval(pellets.setIntervalMove);
+    clearInterval(trooper.setIntervalMove);
+    plane.gameLoop = false;
+    plane.planeSoundStop();
+    trooper.gameLoop = false;
+    window.onkeyup = null;
+    window.onkeydown = null;
+ }

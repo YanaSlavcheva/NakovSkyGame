@@ -228,4 +228,4 @@ window.onload=function adder(){
 
 var plane=new Plane();
 
-document.getElementById('start').addEventListener('click',function(){plane.gameLoop=true},false);
+//document.getElementById('start').addEventListener('click',function(){plane.gameLoop=true},false);
