@@ -133,6 +133,7 @@ Plane.prototype.createImgBurningPlane=function createImgBurningPlane(planeTop, p
 
 Plane.prototype.paratrooperGenerator = function paratrooperGenerator(trooper){
 
+    var container = document.getElementById('container');
     var planes = document.getElementsByName('plane');
 
     if(planes.length <= 0) return;
@@ -140,6 +141,8 @@ Plane.prototype.paratrooperGenerator = function paratrooperGenerator(trooper){
     var randomIndex = parseInt(Math.random() * planes.length),
         top =  parseInt(planes[randomIndex].style.top),
         left = parseInt(planes[randomIndex].style.left);
+
+    if(left < 0.1 * container.clientWidth  || left > container.clientWidth * 0.9) return;
 
     trooper.add(left, top);
 };
