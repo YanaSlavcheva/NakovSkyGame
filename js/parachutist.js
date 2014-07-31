@@ -51,8 +51,8 @@ Soldiers.prototype.falling = function falling() {
 		imageNameLanded = 'images/landedParatroop.png';
 
         var soldier = paratroopers[i],
-            startLeftPositionOfBase = containerHalfWidth -  baseHalfWidth,
-            endRightPositionOfBase = containerHalfWidth +  baseHalfWidth,
+            startLeftPositionOfBase = containerHalfWidth -  baseHalfWidth ,
+            endRightPositionOfBase = containerHalfWidth +  baseHalfWidth ,
             left = parseInt(soldier.style.left),
             top = parseInt(soldier.style.top),
             id = soldier.id,
@@ -60,14 +60,14 @@ Soldiers.prototype.falling = function falling() {
             landedState;
 
 
-        if(startLeftPositionOfBase <= left && left <= endLeftPositionOfBase){
+        if(startLeftPositionOfBase <= left && left <= endRightPositionOfBase){
 
             landedHeight = containerHeight  - soldier.clientHeight - baseHeight;
             landedState = 'landed of weapon';
-        } else if (startLeftPositionOfBase > this.left[i]){
+        } else if (startLeftPositionOfBase > left){
             landedHeight = containerHeight  - soldier.clientHeight;
             landedState = 'landed left';
-        } else if (this.left[i] > endRightPositionOfBase){
+        } else if (left > endRightPositionOfBase){
 			landedHeight = containerHeight  - soldier.clientHeight;
             landedState = 'landed right';
 		}
@@ -86,6 +86,7 @@ Soldiers.prototype.falling = function falling() {
                 soldier.style.top = (top + 1) + 'px';
                 top += 1;
             } else {
+
                 if (this.state[id] === 'fall with parachute') {
                     this.state[id] = landedState;
                     this.landedHeight[id] = top;
@@ -95,25 +96,59 @@ Soldiers.prototype.falling = function falling() {
         } else {
             soldier.style.top = this.landedHeight[id] + 'px';
         }
-		//landedState === 'landed left' && 
-		if (this.top[i] >= landedHeight) {
-			while (startLeftPositionOfBase - baseHalfWidth > this.left[i]){
-				soldier.style.left = (this.left[i] + 0.001) + 'px';
-				this.left[i] += 0.001;
-			}
-			while (endRightPositionOfBase < this.left[i]){
-				soldier.style.left = (this.left[i] - 0.001) + 'px';
-				this.left[i] -= 0.001;
-			}			
-		}
+//		//landedState === 'landed left' &&
+//		if (this.top[i] >= landedHeight) {
+//			while (startLeftPositionOfBase - baseHalfWidth > this.left[i]){
+//				soldier.style.left = (this.left[i] + 0.001) + 'px';
+//				this.left[i] += 0.001;
+//			}
+//			while (endRightPositionOfBase < this.left[i]){
+//				soldier.style.left = (this.left[i] - 0.001) + 'px';
+//				this.left[i] -= 0.001;
+//			}
+//		}
     }
 
 };
+
+Soldiers.prototype.attackWeapon = function attackWeapon(){
+
+    function move(paratrooper, dir){
+
+    }
+
+
+    var id,
+        paratroopersLeft = [],
+        paratroopersRight = [],
+        paratroopersCenter = [],
+        countLeft = 0,
+        countRight = 0;
+
+
+    for (id in this.state) {
+           var paratrooper = document.getElementById(id);
+
+           if(this.state[id] === 'landed left') {
+                paratroopersLeft.push(paratrooper);
+           } else if(this.state[id] === 'landed right') {
+               paratroopersRight.push(paratrooper);
+           } else if(this.state[id] === 'landed of weapon') {
+               paratroopersCenter.push(paratrooper);
+           }
+
+        if(Object.keys(paratroopersLeft).length >= 3) {
+
+        }
+     }
+
+}
 
 
 function setIntervalParatrooper(trooper) {
     trooper.setIntervalMove = setInterval(function () {
         trooper.falling();
+        trooper.attackWeapon();
     }, 100);
 }
 
