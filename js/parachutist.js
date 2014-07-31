@@ -206,6 +206,8 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
             removePlanes();
             var gif = document.getElementById('gifC');
             gif.style.display = 'block';
+
+            document.getElementById('nakovFinal').play();
         }
     }
 
