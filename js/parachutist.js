@@ -131,26 +131,6 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
         }
     }
 
-    function showGifImg(dir, left,  top){
-        var img = document.createElement('img'),
-            nameImg;
-
-        if(dir == 'left'){
-            nameImg = 'images/invasionNakovLeft.gif'
-        }
-
-//        img.setAttribute('class', 'gifImg');
-        img.setAttribute('src', nameImg);
-
-        img.style.top = top + 'px';
-        img.style.left = left + 'px';
-        document.getElementById('container').appendChild(img);
-
-
-    }
-
-    showGifImg('left', 100, 100);
-
     var id,
         paratroopersLeft = [],
         paratroopersRight = [],
@@ -163,14 +143,21 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
         var paratrooper = document.getElementById(id);
 
         if (this.state[id] === 'landed left') {
+
             paratroopersLeft.push(paratrooper);
+
+
         } else if (this.state[id] === 'landed right') {
+
             paratroopersRight.push(paratrooper);
         }
 
         if (this.state[id] === 'landed of weapon') {
+
             paratroopersCenter.push(paratrooper);
+
         }
+
 
         if (Object.keys(paratroopersLeft).length >= 3) {
 
@@ -186,8 +173,12 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
 
                 if (left < baseLeft) {
                     move(paratroopersLeft[i], 'left');
+                } else {
+                    document.getElementById('gifL').style.display = 'inline-block';
                 }
             }
+
+
         }
 
         if (Object.keys(paratroopersRight).length >= 3) {
@@ -204,6 +195,8 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
 
                 if (left > baseRight) {
                     move(paratroopersRight[i], 'right');
+                } else {
+                    document.getElementById('gifR').style.display = 'inline-block';
                 }
             }
         }
@@ -211,21 +204,16 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
         if (Object.keys(paratroopersCenter).length >= 1) {
 
             removePlanes();
-
-            var base = document.getElementById('base'),
-                baseWidth = base.clientWidth,
-                baseRight = base.offsetLeft + baseWidth * 0.7,
-                i = 0;
-
-//            alert('BOOM');
+            var gif = document.getElementById('gifC');
+            gif.style.display = 'block';
         }
-
     }
 
 };
 
 
 function setIntervalParatrooper(trooper) {
+    var isGif = false;
     trooper.setIntervalMove = setInterval(function () {
         trooper.falling();
         trooper.attackWeapon();
