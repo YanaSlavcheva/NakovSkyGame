@@ -124,6 +124,32 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
 
     }
 
+    function removePlanes() {
+        var allPlanes = document.getElementsByName('plane');
+        for (var i = 0; i < allPlanes.length; i++) {
+            allPlanes[i].parentNode.removeChild(allPlanes[i]);
+        }
+    }
+
+    function showGifImg(dir, left,  top){
+        var img = document.createElement('img'),
+            nameImg;
+
+        if(dir == 'left'){
+            nameImg = 'images/invasionNakovLeft.gif'
+        }
+
+//        img.setAttribute('class', 'gifImg');
+        img.setAttribute('src', nameImg);
+
+        img.style.top = top + 'px';
+        img.style.left = left + 'px';
+        document.getElementById('container').appendChild(img);
+
+
+    }
+
+    showGifImg('left', 100, 100);
 
     var id,
         paratroopersLeft = [],
@@ -147,6 +173,9 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
         }
 
         if (Object.keys(paratroopersLeft).length >= 3) {
+
+            removePlanes();
+
             var base = document.getElementById('base'),
                 baseWidth = base.clientWidth,
                 baseLeft = base.offsetLeft,
@@ -162,6 +191,9 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
         }
 
         if (Object.keys(paratroopersRight).length >= 3) {
+
+            removePlanes();
+
             var base = document.getElementById('base'),
                 baseWidth = base.clientWidth,
                 baseRight = base.offsetLeft + baseWidth * 0.7,
@@ -177,6 +209,9 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
         }
 
         if (Object.keys(paratroopersCenter).length >= 1) {
+
+            removePlanes();
+
             var base = document.getElementById('base'),
                 baseWidth = base.clientWidth,
                 baseRight = base.offsetLeft + baseWidth * 0.7,

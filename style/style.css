@@ -216,3 +216,8 @@ html{
 .border {
     border: solid 1px red;
 }
+
+
+.gifImg {
+    position: absolute;
+}
