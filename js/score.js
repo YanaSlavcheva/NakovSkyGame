@@ -3,8 +3,8 @@ function Score(){
     this.statsHolder=document.getElementById('scoreHolder');
 }
 
-Score.prototype.upScore=function upScore(){
-    this.stats+=5;
+Score.prototype.upScore=function upScore(num){
+    this.stats+=num;
     this.statsHolder.innerHTML=this.stats + '';
 };
 
