@@ -177,7 +177,7 @@ html{
 /*styles for paratrooper*/
 
 .paratrooper {
-    width: 5%;
+    width: 11px;
     position: absolute;
     z-index: 25;
     transform-origin: top center;
@@ -213,4 +213,6 @@ html{
     animation-iteration-count: 3;
 }
 
-
+.border {
+    border: solid 1px red;
+}
