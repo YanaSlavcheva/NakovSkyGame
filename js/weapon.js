@@ -27,13 +27,13 @@ Gun.prototype.rotate = function rotate() {
 Gun.prototype.changeAngle = function changeAngle() {
 
     if (this.direction === 'left') {
-        if (this.angle > -80) {
+        if (this.angle > -90) {
             this.angle -= 1;
         }
     }
 
     if (this.direction === 'right') {
-        if (this.angle < 80) {
+        if (this.angle < 90) {
             this.angle += 1;
         }
     }
@@ -200,29 +200,31 @@ Pellets.prototype.searchTarget = function searchTarget(troopers) {
         var leftPellet = parseInt(pellet.style.left),
             topPellet = parseInt(pellet.style.top);
 
-        var troopersArr = document.getElementsByName('paratrooper');
+        var troopers = document.getElementsByName('paratrooper');
 
-        for (indexTrooper = 0; indexTrooper < troopersArr.length; indexTrooper += 1) {
+        for (indexTrooper = 0; indexTrooper < troopers.length; indexTrooper += 1) {
 
-            var trooper = troopersArr[indexTrooper];
+            var trooper = troopers[indexTrooper];
 
             if (trooper == null) break;
 
             var leftTrooper = parseInt(trooper.style.left) ,
                 topTrooper = parseInt(trooper.style.top) ,
                 heightTrooper = pellet.clientHeight * 18 ,
-                widthTrooper = pellet.clientWidth * 18,
-                index = troopers.state[trooper.id].indexOf('landed');
-
-//            if (index > -1 ) break;
+                widthTrooper = pellet.clientWidth * 18;
 
             if (leftPellet >= leftTrooper && leftPellet <= leftTrooper + widthTrooper &&
                 topPellet >= topTrooper && topPellet <= topTrooper + heightTrooper) {
 
-//                delete  troopers.state[trooper.id];
-
+                pellet.className += ' border';
+                trooper.className += ' border';
                 document.getElementById('container').removeChild(pellet);
                 document.getElementById('container').removeChild(trooper);
+                score.upScore(1);
+// pellet.style.display = 'none';
+// trooper.style.display = 'none';
+// idPellets.push(this.id[indexPellet]);
+// idTroopers.push(troopers.id[indexPellet]);
                 break;
             }
 
@@ -231,16 +233,16 @@ Pellets.prototype.searchTarget = function searchTarget(troopers) {
 
     var i;
 
-//    for (i in idPellets){
-//        pellet = document.getElementById(idPellets[i]);
-//        trooper = document.getElementById(idTroopers[i]);
-//        document.getElementById('container').removeChild(pellet);
-//        document.getElementById('container').removeChild(trooper);
-//        var pos = this.id.indexOf(idPellets[i]);
-//        this.id.splice(pos, 1);
-//        pos = troopers.id.indexOf(idTroopers[i]);
-//        troopers.id.splice(pos, 1);
-//    }
+// for (i in idPellets){
+// pellet = document.getElementById(idPellets[i]);
+// trooper = document.getElementById(idTroopers[i]);
+// document.getElementById('container').removeChild(pellet);
+// document.getElementById('container').removeChild(trooper);
+// var pos = this.id.indexOf(idPellets[i]);
+// this.id.splice(pos, 1);
+// pos = troopers.id.indexOf(idTroopers[i]);
+// troopers.id.splice(pos, 1);
+// }
 };
 
 //Pellets.prototype.copyToDFragment = function copyToDFragment() {
@@ -263,7 +265,7 @@ function upPelletCount(pellets) {
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
-        pellets.searchTarget(trooper);
+        pellets.searchTarget();
     }, 1);
 }
 
