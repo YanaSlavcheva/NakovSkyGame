@@ -96,17 +96,6 @@ Soldiers.prototype.falling = function falling() {
         } else {
             soldier.style.top = this.landedHeight[id] + 'px';
         }
-//		//landedState === 'landed left' &&
-//		if (this.top[i] >= landedHeight) {
-//			while (startLeftPositionOfBase - baseHalfWidth > this.left[i]){
-//				soldier.style.left = (this.left[i] + 0.001) + 'px';
-//				this.left[i] += 0.001;
-//			}
-//			while (endRightPositionOfBase < this.left[i]){
-//				soldier.style.left = (this.left[i] - 0.001) + 'px';
-//				this.left[i] -= 0.001;
-//			}
-//		}
     }
 
 };
@@ -165,7 +154,7 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
 
             var base = document.getElementById('base'),
                 baseWidth = base.clientWidth,
-                baseLeft = base.offsetLeft,
+                baseLeft = base.offsetLeft - baseWidth / 2,
                 i = 0;
 
             for (i in paratroopersLeft) {
@@ -174,7 +163,14 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
                 if (left < baseLeft) {
                     move(paratroopersLeft[i], 'left');
                 } else {
-                    document.getElementById('gifL').style.display = 'inline-block';
+                    if (document.getElementById('gifL').style.display !== 'inline-block') {
+                        document.getElementById('gifL').style.display = 'inline-block';
+                        setTimeout(function(){
+                            document.getElementById('gifL').src = 'images/finInvasionLeftLast.png';
+                            document.getElementById('gifC').style.display = 'inline-block';
+                            document.getElementById('nakovFinal').play();
+                        }, 2000);
+                    }
                 }
             }
 
@@ -196,7 +192,14 @@ Soldiers.prototype.attackWeapon = function attackWeapon() {
                 if (left > baseRight) {
                     move(paratroopersRight[i], 'right');
                 } else {
-                    document.getElementById('gifR').style.display = 'inline-block';
+                    if (document.getElementById('gifR').style.display !== 'inline-block') {
+                        document.getElementById('gifR').style.display = 'inline-block';
+                        setTimeout(function(){
+                            document.getElementById('gifR').src = 'images/finInvasionRightLast.png';
+                            document.getElementById('gifC').style.display = 'inline-block';
+                            document.getElementById('nakovFinal').play();
+                        }, 2000);
+                    }
                 }
             }
         }

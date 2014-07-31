@@ -27,13 +27,13 @@ Gun.prototype.rotate = function rotate() {
 Gun.prototype.changeAngle = function changeAngle() {
 
     if (this.direction === 'left') {
-        if (this.angle > -90) {
+        if (this.angle > -70) {
             this.angle -= 1;
         }
     }
 
     if (this.direction === 'right') {
-        if (this.angle < 90) {
+        if (this.angle < 70) {
             this.angle += 1;
         }
     }
@@ -221,10 +221,6 @@ Pellets.prototype.searchTarget = function searchTarget(troopers) {
                 document.getElementById('container').removeChild(pellet);
                 document.getElementById('container').removeChild(trooper);
                 score.upScore(1);
-// pellet.style.display = 'none';
-// trooper.style.display = 'none';
-// idPellets.push(this.id[indexPellet]);
-// idTroopers.push(troopers.id[indexPellet]);
                 break;
             }
 
@@ -232,33 +228,14 @@ Pellets.prototype.searchTarget = function searchTarget(troopers) {
     }
 
     var i;
-
-// for (i in idPellets){
-// pellet = document.getElementById(idPellets[i]);
-// trooper = document.getElementById(idTroopers[i]);
-// document.getElementById('container').removeChild(pellet);
-// document.getElementById('container').removeChild(trooper);
-// var pos = this.id.indexOf(idPellets[i]);
-// this.id.splice(pos, 1);
-// pos = troopers.id.indexOf(idTroopers[i]);
-// troopers.id.splice(pos, 1);
-// }
 };
-
-//Pellets.prototype.copyToDFragment = function copyToDFragment() {
-// var pellets = document.getElementsByName('pellet');
-// while (pellets.length > 0) {
-// this.dFragment.appendChild(pellets[0]);
-// }
-//};
-
 
 // SetInterval Functions ---------------------------------------------------------
 function upPelletCount(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         if (pellets.count < 20) pellets.count++;
         document.getElementById('shots').innerHTML = pellets.count;
-    }, 400);
+    }, 1000);
 }
 
 
@@ -273,7 +250,7 @@ function setLeftIntervalRotate(gun) {
     if (gun.rightInterval) clearInterval(gun.rightInterval);
     gun.leftInterval = setInterval(function () {
         gun.rotate();
-    }, 1);
+    }, 10);
     gun.rightInterval = 0;
 }
 
@@ -281,7 +258,7 @@ function setRightIntervalRotate(gun) {
     if (gun.leftInterval) clearInterval(gun.leftInterval);
     gun.rightInterval = setInterval(function () {
         gun.rotate();
-    }, 1);
+    }, 10);
     gun.leftInterval = 0;
 }
 

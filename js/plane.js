@@ -6,8 +6,8 @@ function Plane(){
     this.left=[];
     //this.top=[];
     //this.position=[];
-    this.speed=9;
-    this.planesFrequency=1; //from 0 - to 100
+    this.speed=4;
+    this.planesFrequency=4; //from 0 - to 100
 }
 
 // Class Metods
@@ -152,13 +152,6 @@ Plane.prototype.paratrooperGenerator = function paratrooperGenerator(trooper){
 };
 
 
-/*Plane.prototype.removeImgBurningPlane=function removeImgBurningPlane(img){
- if(img!=undefined) {
- document.getElementById('container').removeChild(img);
- }
- };*/
-
-
 // Some Functions
 function randGenerator(frequency){
     return Math.floor(Math.random() * frequency);
@@ -225,7 +218,7 @@ function planeFly(){
 function getParatrooper(){
     setInterval(function() {
         plane.paratrooperGenerator(trooper)
-    }, 3000);
+    }, 1000);
 }
 
 // Do it
