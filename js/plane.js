@@ -6,8 +6,8 @@ function Plane(){
     this.left=[];
     //this.top=[];
     //this.position=[];
-    this.speed=3;
-    this.planesFrequency=2; //from 0 - to 100
+    this.speed=9;
+    this.planesFrequency=3; //from 0 - to 100
 }
 
 // Class Metods
@@ -97,7 +97,7 @@ Plane.prototype.collision=function collision(){
                         pellets[pellet].parentNode.removeChild(pellets[pellet]);
                         this.planeExplodeSoundStart();
                         this.createImgBurningPlane(planesTop, planesLeft, planesWidth);
-                        score.upScore();
+                        score.upScore(5);
                     }
                 }
             }
@@ -209,10 +209,13 @@ function planeFly(){
             if (randGenerator(100) < plane.planesFrequency) {
                 plane.add();
             }
-            plane.collision();
             plane.move();
         }
     }, 15);
+    setInterval(function() {
+            plane.collision();
+    }, 9);
+
 }
 
 function getParatrooper(){
