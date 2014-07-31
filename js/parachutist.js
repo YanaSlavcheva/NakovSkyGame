@@ -35,9 +35,9 @@ Soldiers.prototype.falling = function falling() {
     if (this.gameLoop  === false) return;
 
     var containerHeight = document.getElementById('container').clientHeight * 0.98,
-        containerHalfWidth = document.getElementById('container').clientWidth / 2,
-        baseHalfWidth = document.getElementById('base').clientWidth / 2,
-        baseHeight = document.getElementById('base').clientHeight,
+        containerHalfWidth = document.getElementById('container').clientWidth /2 ,
+        baseHalfWidth = document.getElementById('base').clientWidth /2,
+        baseHeight = document.getElementById('base').clientHeight ,
         imageNameFalling,
         imageNameLanded,
         i = 0;
@@ -51,8 +51,8 @@ Soldiers.prototype.falling = function falling() {
 		imageNameLanded = 'images/landedParatroop.png';
 
         var soldier = paratroopers[i],
-            startLeftPositionOfBase = containerHalfWidth -  baseHalfWidth ,
-            endRightPositionOfBase = containerHalfWidth +  baseHalfWidth ,
+            startLeftPositionOfBase = containerHalfWidth - 2*baseHalfWidth ,
+            endRightPositionOfBase = containerHalfWidth -  2 * baseHalfWidth ,
             left = parseInt(soldier.style.left),
             top = parseInt(soldier.style.top),
             id = soldier.id,
@@ -114,6 +114,13 @@ Soldiers.prototype.falling = function falling() {
 Soldiers.prototype.attackWeapon = function attackWeapon(){
 
     function move(paratrooper, dir){
+          if ( dir == 'left'){
+              paratrooper.style.left = (parseInt(paratrooper.style.left) + 1) + 'px';
+          }
+
+        if ( dir == 'right'){
+            paratrooper.style.left = (parseInt(paratrooper.style.left) - 1) + 'px';
+        }
 
     }
 
@@ -138,9 +145,36 @@ Soldiers.prototype.attackWeapon = function attackWeapon(){
            }
 
         if(Object.keys(paratroopersLeft).length >= 3) {
+            var base = document.getElementById('base'),
+                baseWidth = base.clientWidth,
+                baseLeft = base.offsetLeft - baseWidth / 2,
+                i = 0;
 
+            for(i in paratroopersLeft) {
+                var left = parseInt(paratroopersLeft[i].style.left);
+
+                if (left < baseLeft) {
+                    move(paratroopersLeft[i], 'left');
+                }
+            }
         }
-     }
+
+        if(Object.keys(paratroopersRight).length >= 3) {
+            var base = document.getElementById('base'),
+                baseWidth = base.clientWidth,
+                baseRight = base.offsetLeft + baseWidth / 2,
+                i = 0;
+
+            for(i in paratroopersRight) {
+                var left = parseInt(paratroopersRight[i].style.left);
+
+                if (left > baseRight) {
+                    move(paratroopersRight[i], 'right');
+                }
+            }
+        }
+
+    }
 
 }
 
