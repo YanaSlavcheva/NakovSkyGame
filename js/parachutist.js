@@ -42,20 +42,26 @@ Soldiers.prototype.falling = function falling() {
         imageNameLanded,
         i = 0;
 
-    for (i in this.id) {
+    var paratroopers = document.getElementsByName('paratrooper');
+
+
+    for (i = 0; i < paratroopers.length; i+=1) {
 
         imageNameFalling = 'images/paratroop.png';
 		imageNameLanded = 'images/landedParatroop.png';
 
-        var soldier = document.getElementById(this.id[i]),
+        var soldier = paratroopers[i],
             startLeftPositionOfBase = containerHalfWidth -  baseHalfWidth,
             endRightPositionOfBase = containerHalfWidth +  baseHalfWidth,
+            left = parseInt(soldier.style.left),
+            top = parseInt(soldier.style.top),
+            id = soldier.id,
             landedHeight,
             landedState;
 
 
+        if(startLeftPositionOfBase <= left && left <= endLeftPositionOfBase){
 
-        if(startLeftPositionOfBase <= this.left[i] && this.left[i] <= endRightPositionOfBase){
             landedHeight = containerHeight  - soldier.clientHeight - baseHeight;
             landedState = 'landed of weapon';
         } else if (startLeftPositionOfBase > this.left[i]){
@@ -66,28 +72,28 @@ Soldiers.prototype.falling = function falling() {
             landedState = 'landed right';
 		}
 
-        if (this.state[i] === undefined || this.state[i].substring(0,6) !== 'landed') {
-            if (this.top[i] < containerHeight * 0.3) {
-                soldier.style.top = (this.top[i] + 5) + 'px';
-                this.top[i] += 5;
-                if (!this.state[i]) this.state[i] = 'fall';
-            } else if (this.top[i] >= containerHeight * 0.3 && this.top[i] < landedHeight ) {
-                if (this.state[i] === 'fall') {
-                    this.state[i] = 'fall with parachute';
+        if (this.state[id] === undefined || this.state[id].substring(0,6) !== 'landed') {
+            if (top < containerHeight * 0.3) {
+                soldier.style.top = (top + 5) + 'px';
+                top += 5;
+                if (!this.state[id]) this.state[id] = 'fall';
+            } else if (top >= containerHeight * 0.3 && top < landedHeight ) {
+                if (this.state[id] === 'fall') {
+                    this.state[id] = 'fall with parachute';
                     soldier.setAttribute('src', imageNameFalling);
                     this.domElement.setAttribute('class', 'paratrooper shakeParatrooper');
                 }
-                soldier.style.top = (this.top[i] + 1) + 'px';
-                this.top[i] += 1;
+                soldier.style.top = (top + 1) + 'px';
+                top += 1;
             } else {
-                if (this.state[i] === 'fall with parachute') {
-                    this.state[i] = landedState;
-                    this.landedHeight[i] = this.top[i];
+                if (this.state[id] === 'fall with parachute') {
+                    this.state[id] = landedState;
+                    this.landedHeight[id] = top;
                     soldier.setAttribute('src', imageNameLanded);					
                 }
             }
         } else {
-            soldier.style.top = this.landedHeight[i] + 'px';
+            soldier.style.top = this.landedHeight[id] + 'px';
         }
 		//landedState === 'landed left' && 
 		if (this.top[i] >= landedHeight) {
@@ -108,7 +114,7 @@ Soldiers.prototype.falling = function falling() {
 function setIntervalParatrooper(trooper) {
     trooper.setIntervalMove = setInterval(function () {
         trooper.falling();
-    }, 40);
+    }, 100);
 }
 
 var trooper = new Soldiers();

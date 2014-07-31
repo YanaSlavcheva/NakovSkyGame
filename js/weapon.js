@@ -189,35 +189,42 @@ Pellets.prototype.searchTarget = function searchTarget(troopers) {
         idPellets = [],
         idTroopers = [];
 
-    for (indexPellet in this.id) {
+    var pellets = document.getElementsByName('pellet');
 
-        var pellet = document.getElementById(this.id[indexPellet]);
+    for (indexPellet = 0; indexPellet < pellets.length; indexPellet += 1) {
+
+        var pellet = pellets[indexPellet];
 
         if (pellet == null) break;
 
         var leftPellet = parseInt(pellet.style.left),
             topPellet = parseInt(pellet.style.top);
 
-        for (indexTrooper in troopers.id) {
+        var troopers = document.getElementsByName('paratrooper');
 
-            var trooper = document.getElementById(troopers.id[indexTrooper]);
+        for (indexTrooper = 0; indexTrooper < troopers.length; indexTrooper += 1) {
+
+            var trooper = troopers[indexTrooper];
 
             if (trooper == null) break;
 
-            var leftTrooper = parseInt(trooper.style.left) - 30,
-                topTrooper = parseInt(trooper.style.top) - 30,
-                heightTrooper = pellet.clientHeight + 30,
-                widthTrooper = pellet.clientWidth +  30;
+            var leftTrooper = parseInt(trooper.style.left) ,
+                topTrooper = parseInt(trooper.style.top) ,
+                heightTrooper = pellet.clientHeight * 18 ,
+                widthTrooper = pellet.clientWidth * 18;
 
-            if(leftPellet >= leftTrooper  && leftPellet - 20 <= leftTrooper + widthTrooper  &&
-                topPellet >= topTrooper && topPellet -20 <= topTrooper + heightTrooper ) {
+            if (leftPellet >= leftTrooper && leftPellet <= leftTrooper + widthTrooper &&
+                topPellet >= topTrooper && topPellet <= topTrooper + heightTrooper) {
 
-//
+                pellet.className += ' border';
+                trooper.className += ' border';
+                document.getElementById('container').removeChild(pellet);
+                document.getElementById('container').removeChild(trooper);
 //                pellet.style.display = 'none';
 //                trooper.style.display = 'none';
 //                idPellets.push(this.id[indexPellet]);
 //                idTroopers.push(troopers.id[indexPellet]);
-//                break;
+                break;
             }
 
         }
@@ -250,13 +257,14 @@ function upPelletCount(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         if (pellets.count < 20) pellets.count++;
         document.getElementById('shots').innerHTML = pellets.count;
-    }, 1000);
+    }, 400);
 }
 
 
 function setLeftIntervalMovePellets(pellets) {
     pellets.setIntervalMove = setInterval(function () {
         pellets.move();
+        pellets.searchTarget();
     }, 1);
 }
 
@@ -264,7 +272,7 @@ function setLeftIntervalRotate(gun) {
     if (gun.rightInterval) clearInterval(gun.rightInterval);
     gun.leftInterval = setInterval(function () {
         gun.rotate();
-    }, 20);
+    }, 1);
     gun.rightInterval = 0;
 }
 
@@ -272,7 +280,7 @@ function setRightIntervalRotate(gun) {
     if (gun.leftInterval) clearInterval(gun.leftInterval);
     gun.rightInterval = setInterval(function () {
         gun.rotate();
-    }, 20);
+    }, 1);
     gun.leftInterval = 0;
 }
 
