@@ -48,8 +48,13 @@ function startGame() {
     setIntervalParatrooper(trooper);
     planeFly();
     getParatrooper();
-    plane.gameLoop = true
+    plane.gameLoop = true;
     trooper.gameLoop = true;
+
+    document.getElementById('MenuOnClick').style.visibility='hidden';
+    document.getElementById('MenuOnClick').style.position='absolute';
+    document.getElementById('gameScreen').style.visibility='visible';
+    document.getElementById('gameScreen').style.position='relative';
 }
 
 document.getElementById('start').addEventListener('click', startGame, false);
@@ -62,4 +67,11 @@ function stopGame() {
     trooper.gameLoop = false;
     window.onkeyup = null;
     window.onkeydown = null;
- }
+
+    document.getElementById('MenuOnClick').style.visibility='visible';
+    document.getElementById('MenuOnClick').style.position='relative';
+    document.getElementById('gameScreen').style.visibility='hidden';
+    document.getElementById('gameScreen').style.position='absolute';
+}
+
+document.getElementById('MenuOnClick').addEventListener('click', stopGame, false);
