@@ -22,6 +22,16 @@ html{
     background: #6296BB;
 }
 
+#button {
+    cursor: pointer;
+    font: sans-serif;
+    text-align: center;
+}
+
+#button:hover {
+    background: #555;
+    color: #fff;
+}
 
 .container{
     background: #6296BB;
