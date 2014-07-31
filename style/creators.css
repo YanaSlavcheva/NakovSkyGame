@@ -1,0 +1,49 @@
+#Creators > * {
+    font-family: 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 100%;
+    padding: 4% 3% 4% 3%;
+    text-align: center;
+    display: inline-block;
+    background: #6296BB;
+    width: 92%;
+    height: 62%;
+    font-size: 45px;
+}
+
+.Ceco {
+    background-image: url('/images/Zvetan.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+}
+
+.Qna {
+    background-image: url('/images/Qna.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+}
+
+.Mitko {
+    background-image: url('/images/Mitko.jpg');
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.GT {
+    background-image: url('/images/GT.jpg');
+    background-size: 100%;
+}
+
+.Sasho {
+    background-image: url('/images/Sasho.jpg');
+    background-image: 100%;
+}
+
+.PressButton {
+    cursor: pointer;
+    font: sans-serif;
+    text-align: center;
+    padding: 5% 2% 5% 2%;
+}
