@@ -129,6 +129,10 @@ Plane.prototype.createImgBurningPlane=function createImgBurningPlane(planeTop, p
     img.style.top = planeTop + 'px';
     document.getElementById('container').appendChild(img);
     img.className = 'fadeAnimation';
+
+    setTimeout(function(){
+        img.parentNode.removeChild(img);
+    }, 1500);
 };
 
 Plane.prototype.paratrooperGenerator = function paratrooperGenerator(trooper){
