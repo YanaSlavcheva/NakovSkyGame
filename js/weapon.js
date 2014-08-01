@@ -28,13 +28,13 @@ Gun.prototype.rotate = function rotate() {
 Gun.prototype.changeAngle = function changeAngle() {
 
     if (this.direction === 'left') {
-        if (this.angle > -90) {
+        if (this.angle > -70) {
             this.angle -= 1;
         }
     }
 
     if (this.direction === 'right') {
-        if (this.angle < 90) {
+        if (this.angle < 70) {
             this.angle += 1;
         }
     }

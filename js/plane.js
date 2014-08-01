@@ -7,7 +7,7 @@ function Plane(){
     //this.top=[];
     //this.position=[];
     this.speed=4;
-    this.planesFrequency=4; //from 0 - to 100
+    this.planesFrequency=3; //from 0 - to 100
 }
 
 // Class Metods
