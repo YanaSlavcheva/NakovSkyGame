@@ -226,6 +226,7 @@ function setIntervalParatrooper(trooper) {
 }
 
 var trooper = new Soldiers();
+pellets.setParatroopers(trooper);
 
 
 
